@@ -14,6 +14,38 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
 
 ### Added
 
+- **`reference-projects.md` Parts E–H, completing ROADMAP chapter 25.**
+  The four remaining references under `external/` are now studied and
+  documented to the same evidence standard as Parts A–D — every claim tied
+  to a file path, with the searches behind each negative recorded:
+  - **Part E — Freqtrade** (GPLv3, inspiration only). Signals-as-data
+    enforced by construction, dry-run as a run mode rather than a fork, and
+    a documented list of what it does *not* provide (no walk-forward, Monte
+    Carlo, cross-validation, out-of-sample split, risk-based sizing, kill
+    switch, strategy identity, or dataset identity in hyperopt records).
+  - **Part F — Hummingbot** (Apache-2.0, adaptable). The thin-subclass
+    connector base, a richer exchange-rule model than CCXT's, the
+    client-order-tracker recovery machinery, and an order-book query that
+    *reports* insufficient depth instead of extrapolating.
+  - **Part G — Jesse** (MIT, adaptable). Its stationary-bootstrap rule
+    significance test is the strongest statistical artifact in any
+    reference and the one mechanism to adapt for 43.2.
+  - **Part H — TA-Lib** (BSD-3-Clause, adaptable). A 201-function catalog
+    with machine-readable naming, parameter ranges and a documented
+    streaming API that answers chapter 31's open incremental-updates item.
+- **Three advertised claims were corrected by per-feature verification**,
+  which is exactly what chapter 25 demanded: Jesse's optimization is random
+  search with Optuna used only as a trial store (not "Optuna-driven"), its
+  significance test is a stationary bootstrap (not "random-entry variants"),
+  and its indicator catalog is 174 modules (not "300+"). Hummingbot's own
+  README also describes three directories that do not exist.
+- **A cross-reference finding worth keeping**: none of the six trading
+  frameworks studied enforces its own limits. Freqtrade's protections only
+  lock new entries and are opt-in, Hummingbot's kill switch ships
+  `KillSwitchDisabledMode()` by default, and Jesse's sizing helpers are
+  optional calls a strategy can bypass. That is the gap chapters 58–59 exist
+  to close, now recorded in chapter 25 itself.
+
 - `tests/market_data/test_quality.py`: the Chapter 29 data-quality
   framework (`market_data/quality.py`) now has an offline test suite —
   validation, stale/frozen rules, volume anomalies, configuration and
@@ -115,19 +147,25 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   remains unverified.
 
 ### Changed
-- **ROADMAP chapter 25 (reference projects) is `[~]`, not `[ ]`, and its
-  completed studies are ticked.** Four of the eight references were already
-  concluded and documented in `reference-projects.md` (Parts A–D: the AFML
-  exercises, Backtrader, VectorBT, CCXT) while every box in the chapter still
-  read as undone — a reader would have concluded nothing had been studied.
-  The four pending studies (Freqtrade, Hummingbot, Jesse, TA-Lib) are now a
-  backlog item in `AGENT-HANDOFF.md` §5.2, which did not track chapter 25 at
-  all.
+- **ROADMAP chapter 25 (reference projects) is closed: `[x]`, 13 boxes
+  ticked, 0 open.** It had been `[ ]` with every box reading as undone even
+  though four studies were already concluded and documented
+  (`reference-projects.md` Parts A–D), so a reader would have concluded that
+  nothing had been studied. The remaining four were finished on 2026-10-15
+  (Parts E–H), and the chapter's closing requirement — document the
+  conclusions — is now met.
+- **`external/` is therefore removable.** The chapter's deliverable is the
+  study and its written conclusions, not the vendored copies; nothing in
+  `src/`, `tests/`, `pyproject.toml` or `Makefile` references `external/`,
+  and both CI workflows pass `submodules: false`. The 12 GB release
+  procedure is in `reference-projects.md` → "Disk cost, and what can now be
+  removed"; it was tested end-to-end and is reversible.
 - **The disk cost of `external/` is documented and measured**: not 930 MB but
-  **12 GB** — 11 GB of git object store, 8.5 GB of it `ccxt`. The four
-  concluded studies account for ~9.4 GB and can be released with
-  `git submodule deinit`; the 2.2 GB behind the pending studies must stay.
-  See `reference-projects.md` → "Disk cost, and what can be removed".
+  **12 GB** — 11 GB of git object store, 8.5 GB of it `ccxt`. The README and
+  `CONTRIBUTING.md` had invited contributors to run
+  `git submodule update --init --recursive`, which downloads all of it; they
+  now state the real size and recommend fetching only the reference a task
+  is about.
 - **macOS verification is deferred to the end of development** by the
   maintainer's decision, after Linux and Windows. The `README.md` (agent
   prompt, good-first-contributions, "What is not verified"), the

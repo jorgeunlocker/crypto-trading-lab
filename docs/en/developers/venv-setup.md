@@ -194,9 +194,11 @@ hand-written adapters.
 **Reasons it might not:** it is a large PyPI dependency, it is asynchronous
 under the hood, and if it only re-wraps Binance it adds nothing we lack.
 
-The repository vendors the ccxt source as a study reference under
-[`external/ccxt`](../../../external/ccxt) (an optional submodule, not an
-install). To evaluate it against the project:
+The ccxt source can be fetched as an optional submodule under `external/ccxt`
+for reference; it is **not** an install, and the study of it is already
+concluded in
+[`reference-projects.md`](reference-projects.md) Part D, so you do not need it
+on disk to use ccxt from PyPI. To evaluate it against the project:
 
 ```bash
 source .venv/bin/activate

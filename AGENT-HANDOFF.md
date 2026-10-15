@@ -44,13 +44,13 @@ A new AI Agent must read this file **before** doing anything else, then
 - **Specification:** `ROADMAP.md` — 80 chapters in 16 parts
 - **Git submodules:** 8 *optional* reference projects under `external/`;
   the application builds and tests without them (both CI workflows pass
-  `submodules: false`). Clone them with
-  `git submodule update --init --recursive` only when the task is about
-  those references. **They cost 12 GB on disk** — 11 GB of it in
-  `.git/modules`, and 8.5 GB in `ccxt` alone. Four studies are concluded
-  (`ccxt`, `vectorbt`, `backtrader`, the AFML exercises) and their ~9.4 GB
-  can be released with `git submodule deinit`; the four pending studies need
-  their 2.2 GB. See `reference-projects.md` → "Disk cost".
+  `submodules: false`). **All eight are now studied** — chapter 25 is `[x]` and
+  the conclusions live in `reference-projects.md` Parts A–H — so the whole
+  directory is **removable**: it costs 12 GB, 11 GB of it in `.git/modules`
+  and 8.5 GB in `ccxt` alone. The release procedure is in that document under
+  "Disk cost, and what can now be removed"; it was tested and is reversible
+  with `git submodule update --init <path>`. Never fetch all eight with
+  `--recursive` just to answer a question the document already answers.
 - **Current phase:** the scientific engine is mature. The 2026-09/10 review
   fixed the documentation-vs-code drift and cleared all 16 unwired modules
   found in the audit; the last one, `strategy_registry`, was wired into the
@@ -352,16 +352,14 @@ features the code did not ship. Concretely:
    dependency decision first (chapter 4) before any code.
 7. **Translations** — the Spanish `.ts` still has untranslated strings that
    fall back to English.
-8. **Chapter 25 — finish the reference-project study.** Four of the eight
-   references are concluded and documented in `reference-projects.md`
-   (Parts A–D: the AFML exercises, Backtrader, VectorBT, CCXT). Four are
-   still pending and are named by the specification: **Freqtrade**
-   (ch. 33/39/57), **Hummingbot** (ch. 56/26), **Jesse** (ch. 43–50) and
-   **TA-Lib** (ch. 31). Part E of the document is the empty slot, and the
-   chapter's closing requirement — document the conclusions — is not met
-   until it is filled. This is a study task: no code, and chapter 25 stays
-   `[~]`. The conclusions must be backed by the referenced files, never by a
-   project's table of contents or its reputation.
+8. ~~**Chapter 25 — finish the reference-project study.**~~ **DONE
+   2026-10-15.** All eight references are studied and documented in
+   `reference-projects.md` Parts A–H; the chapter is `[x]` and its closing
+   requirement is met. **This unblocks deleting `external/` (12 GB)** — the
+   conclusions are the deliverable, not the vendored copies. Three of the
+   four new Parts corrected claims their own projects advertise (see the
+   chapter's notes), which is why the roadmap demanded per-feature
+   verification.
 
 Anything in `ROADMAP.md` marked `[ ]` or `[~]` is fair game. The roadmap is
 the specification; this list is only the recommended order.

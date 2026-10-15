@@ -56,10 +56,12 @@ PYTHONPATH=src python3 -m crypto_trading_lab            # run the app
   `websockets`) and for an isolated environment — see
   [`docs/en/developers/venv-setup.md`](docs/en/developers/venv-setup.md)
   and [`docs/en/developers/debian-dependencies.md`](docs/en/developers/debian-dependencies.md).
-- **Submodules are optional.** `external/` holds ~900 MB of reference
+- **Submodules are optional, and large.** `external/` holds eight reference
   projects used for design research; the application builds and tests
-  without them. Clone them with `git submodule update --init --recursive`
-  only if your task is about those references.
+  without them. Their working copies are 930 MB, but
+  `git submodule update --init --recursive` fetches full history — about
+  **11 GB**, 8 GB of it `external/ccxt`. Fetch only the reference your task
+  is about, for example `git submodule update --init external/freqtrade`.
 - GUI tests run headless with `QT_QPA_PLATFORM=offscreen`.
 
 ---

@@ -13,6 +13,11 @@ before writing code, and tick a checkbox only when the requirement is
 >
 > `[~]` does **not** mean the chapter is wrong; it means it is not closed
 > yet. See `CONTRIBUTING.md` §4 for the ground rules.
+>
+> In the overview table, **Open** counts both `[ ]` and `[~]` items: a
+> partially-done item is still open work. Chapter 56.5 is the only `[~]`
+> item in this document, so it is the only row where that distinction
+> changes a number.
 
 > **Honesty rule:** a chapter is never marked `[x]` because a header once
 > said so — the checkbox tracks evidence, not intention. When a
@@ -20,7 +25,7 @@ before writing code, and tick a checkbox only when the requirement is
 
 ## Status overview by chapter
 
-| Ch. | Status | `[x]` inside | `[ ]` inside | Explicit pending note | Topic |
+| Ch. | Status | `[x]` inside | Open inside | Explicit pending note | Topic |
 |---:|:---:|---:|---:|:---:|---|
 | 1 | [ ] | 0 | 33 | No | Project purpose and scientific principles |
 | 2 | [ ] | 0 | 26 | No | Terminology and conventions |
@@ -46,7 +51,7 @@ before writing code, and tick a checkbox only when the requirement is
 | 22 | [~] | 1 | 22 | No | Complementary CLI |
 | 23 | [~] | 5 | 32 | No | Built-in Learning Center |
 | 24 | [~] | 54 | 0 | Sí | Glossary |
-| 25 | [~] | 4 | 9 | No | Reference projects |
+| 25 | [x] | 13 | 0 | No | Reference projects |
 | 26 | [~] | 36 | 6 | No | Market-data sources and exchange adapters |
 | 27 | [~] | 21 | 1 | No | Connection state management |
 | 28 | [~] | 19 | 1 | No | Data import |
@@ -77,7 +82,7 @@ before writing code, and tick a checkbox only when the requirement is
 | 53 | [~] | 5 | 14 | No | Reproducibility |
 | 54 | [ ] | 0 | 9 | No | Research notebooks |
 | 55 | [ ] | 0 | 20 | No | AI research assistant |
-| 56 | [~] | 22 | 0 | No | Execution realism |
+| 56 | [~] | 22 | 1 | No | Execution realism |
 | 57 | [~] | 5 | 55 | Sí | Paper trading |
 | 58 | [~] | 0 | 74 | Sí | Risk manager |
 | 59 | [~] | 0 | 39 | Sí | Emergency kill switch |
@@ -1760,27 +1765,27 @@ Every glossary entry must include:
 
 ---
 
-## [~] 25. Reference projects
+## [x] 25. Reference projects
 
 The repositories under `external/` are **technical and architectural references**.
 
-- [ ] They should be consulted to study concepts, gather ideas, or, if possible, adapt the code for use.
-- [ ] If a feature in a reference project is assumed, verify it in that project's documentation first; never assume a feature exists because the project name suggests it.
+- [x] They should be consulted to study concepts, gather ideas, or, if possible, adapt the code for use. **Done — all eight studied; conclusions in `reference-projects.md` Parts A–H.**
+- [x] If a feature in a reference project is assumed, verify it in that project's documentation first; never assume a feature exists because the project name suggests it. **Done — every Part separates verified findings from negatives found by search, and each states the searches it ran.**
 
 Technical references:
 
 - [x] **Backtrader** (`external/backtrader`): study event-driven backtesting design, analyzers (Sharpe, drawdown, trade analysis, SQN, VWR, Calmar), broker simulation, and feed handling. Use as inspiration for Chapter 37, not as a runtime dependency. **Done — `reference-projects.md` Part B.**
 - [x] **CCXT** (`external/ccxt`): study the unified exchange API design, market metadata normalization (precision, limits), REST/WebSocket abstraction, and the many exchange quirks handled. Use as inspiration for Chapter 26 exchange adapters; verify Debian/PyPI packaging before use. **Done — Part D; PyPI-only, verified live (104 exchanges), `ccxt` is an optional extra.**
-- [ ] **Freqtrade** (`external/freqtrade`): study strategy/execution separation, dry-run (paper) mode, hyperopt (parameter optimization), persistence, and its cautious default posture. Inspect for Chapters 33, 39, and 57.
-- [ ] **Hummingbot** (`external/hummingbot`): study execution and order-management design, market-making/arbitrage logic, and connector architecture. Inspect for Chapters 56 and 26.
-- [ ] **Jesse** (`external/jesse`): study its research loop: backtest, optimization, Monte Carlo simulation, rule significance testing, and machine-learning pipeline. Inspect for Chapters 43–50; note that Jesse's feature set must be verified per feature.
-- [ ] **TA-Lib** (`external/ta-lib`): study the indicator catalog and naming. It is a C library; check whether the Python wrapper is available as a Debian package before use. Indicator requirements remain defined by Chapter 31.
+- [x] **Freqtrade** (`external/freqtrade`): study strategy/execution separation, dry-run (paper) mode, hyperopt (parameter optimization), persistence, and its cautious default posture. Inspect for Chapters 33, 39, and 57. **Done — Part E. GPLv3, so inspiration only. Signals-not-orders enforced by construction; dry-run is a run mode, not a fork. Verified gaps it does not fill: no walk-forward, no Monte Carlo, no cross-validation, no out-of-sample split, no risk-based sizing, no kill switch, no strategy id/version, no dataset identity in hyperopt records, no partial fills.**
+- [x] **Hummingbot** (`external/hummingbot`): study execution and order-management design, market-making/arbitrage logic, and connector architecture. Inspect for Chapters 56 and 26. **Done — Part F. Apache-2.0, adaptation permitted. Borrow the thin-subclass connector base, the `TradingRule` field set, the client-order-tracker recovery machinery and the "insufficient depth is reported" query; do not adopt its candle-only backtester. Its kill switch ships disabled by default — ours must not.**
+- [x] **Jesse** (`external/jesse`): study its research loop: backtest, optimization, Monte Carlo simulation, rule significance testing, and machine-learning pipeline. Inspect for Chapters 43–50; note that Jesse's feature set must be verified per feature. **Done — Part G. MIT, adaptation permitted. Per-feature verification changed three advertised claims: optimization is random search with Optuna used only as a trial store (not Optuna-driven), the "random-entry variants" significance test is actually a stationary bootstrap, and the catalog is 174 indicators, not "300+". Its stationary-bootstrap significance test is the strongest statistical artifact in any reference and is the one mechanism worth adapting for 43.2.**
+- [x] **TA-Lib** (`external/ta-lib`): study the indicator catalog and naming. It is a C library; check whether the Python wrapper is available as a Debian package before use. Indicator requirements remain defined by Chapter 31. **Done — Part H. The checkout is the C core only (no Python wrapper source); no `python3-talib`/`libta-lib` in Debian 13 sources, so the working default is study-only. The 201-function catalog is a naming and metadata reference, not a backlog — Chapter 31 says not to add dozens of indicators without tests.**
 - [x] **VectorBT** (`external/vectorbt`): study vectorized backtesting, walk-forward optimization, and portfolio analytics concepts. Inspect for Chapters 37 and 45; verify Debian/PyPI packaging. **Done — Part C.**
 - [x] **Advances in Financial Machine Learning — exercises** (`external/adv-financial-ml-marcos-exercises`): study the exercise solutions and the book's own snippets: event-based bars, triple-barrier labeling, sample weighting, purged/embargoed cross-validation, feature importance, and parallelization. Reference for Chapters 29, 38, and 43–50; the code is MIT-licensed and may be adapted with attribution after review and testing. **Done — Part A, with the A.8 adoption checklist.**
-- [ ] **Advances in Financial Machine Learning** (Marcos López de Prado, Wiley, 2018) — the printed reference behind the exercise repository. Conceptual authority for Chapters 43–50, especially the False Strategy theorem, the Deflated Sharpe Ratio, the Probability of Backtest Overfitting, and combinatorial purged cross-validation. Verify every technique against the exercise repository before implementing it.
+- [x] **Advances in Financial Machine Learning** (Marcos López de Prado, Wiley, 2018) — the printed reference behind the exercise repository. Conceptual authority for Chapters 43–50, especially the False Strategy theorem, the Deflated Sharpe Ratio, the Probability of Backtest Overfitting, and combinatorial purged cross-validation. Verify every technique against the exercise repository before implementing it. **Study complete — every technique mapped in `afml-techniques.md`, whose entries carry no blocking open questions, and the exhibit compilation is inventoried in A.9. The "verify before implementing" clause is a standing rule that applies at implementation time (see `AGENTS.md` rule 6), not an open deliverable of this chapter.**
 
-- [ ] Document the conclusions of this study in `docs/en/developers/reference-projects.md`.
-- [ ] When studying each reference project, explicitly note which mechanisms protect capital (risk limits, position sizing, kill switches, dry-run modes, conservative defaults) and which mechanisms only optimize historical performance. Only the former may be adopted for capital-protection features; the latter belong to research chapters (Chapters 39, 44–45).
+- [x] Document the conclusions of this study in `docs/en/developers/reference-projects.md`. **Parts A–H.**
+- [x] When studying each reference project, explicitly note which mechanisms protect capital (risk limits, position sizing, kill switches, dry-run modes, conservative defaults) and which mechanisms only optimize historical performance. Only the former may be adopted for capital-protection features; the latter belong to research chapters (Chapters 39, 44–45). **Every Part carries that section. Recurring finding: none of the six trading frameworks enforces its own limits — Freqtrade's protections only lock entries and are opt-in, Hummingbot's kill switch ships disabled, and Jesse's helpers are optional library calls a strategy can bypass. That is the gap Chapters 58–59 exist to close.**
 
 # PART II — MARKET DATA
 
