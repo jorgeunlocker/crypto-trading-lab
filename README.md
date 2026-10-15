@@ -498,13 +498,19 @@ candle's open — the engine cannot see the future, so neither can you.
 All metrics are exact `Decimal` arithmetic and ship with explicit
 validity flags and assumptions (ROADMAP chapter 40).
 
+<!-- Rendering note: GitHub parses Markdown emphasis INSIDE inline math, so a
+     subscript that immediately follows a brace (`\mathrm{DD}_t`) pairs with
+     the next underscore and mangles the formula into <em>. Keep inline math
+     in this table free of that pattern: write `DD_t`, not `\mathrm{DD}_t`.
+     Verified with GitHub's markdown API; see ROADMAP chapter 40. -->
+
 | Family | Metrics | Definitions |
 |---|---|---|
 | Returns | total, annualized | $R = \dfrac{E_T - E_0}{E_0}$, $\quad R_{\text{ann}} = (1+R)^{n_{\text{yr}}/P} - 1$ |
-| Drawdown | max, duration, average | $\mathrm{DD}_t = \dfrac{\max_{s \le t} E_s - E_t}{\max_{s \le t} E_s}$ |
+| Drawdown | max, duration, average | $DD_t = \dfrac{\max_{s \le t} E_s - E_t}{\max_{s \le t} E_s}$ |
 | Risk | volatility, downside | $\sigma \cdot \sqrt{n}$, $\quad \sigma^- = \sqrt{\tfrac{1}{n}\sum \min(r_i,0)^2}\cdot\sqrt{n}$ |
-| Ratios | Sharpe, Sortino, Calmar | $\mathrm{SR} = \dfrac{\bar r - r_f}{\sigma}\sqrt{n}$, $\;\mathrm{Sortino} = \dfrac{\bar r - r_f}{\sigma^-}\sqrt{n}$ |
-| Trades | profit factor, expectancy | $\mathrm{PF} = \dfrac{\sum \mathrm{wins}}{\lvert\sum \mathrm{losses}\rvert}$, $\;\mathbb{E}[\mathrm{trade}] = \overline{\mathrm{PnL}}$ |
+| Ratios | Sharpe, Sortino, Calmar | $\mathrm{SR} = \dfrac{\bar r - r_f}{\sigma}\sqrt{n}$, $\quad \mathrm{Sortino} = \dfrac{\bar r - r_f}{\sigma^-}\sqrt{n}$ |
+| Trades | profit factor, expectancy | $\mathrm{PF} = \dfrac{\sum \mathrm{wins}}{\lvert\sum \mathrm{losses}\rvert}$, $\quad \mathbb{E}[\mathrm{trade}] = \overline{\mathrm{PnL}}$ |
 | Activity | turnover, fees, spread, slippage | exact per-fill attribution |
 
 **Statistical safeguards baked in:**
