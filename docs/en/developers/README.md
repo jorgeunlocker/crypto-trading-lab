@@ -25,6 +25,7 @@ If you are new, read in this order:
 | [`debian-dependencies.md`](debian-dependencies.md) | check the supported Debian package matrix and how to install |
 | [`configuration-guide.md`](configuration-guide.md) | touch settings, XDG paths or `config.json` |
 | [`working-method.md`](working-method.md) | make a change the way this project expects (tests, docs, honesty) |
+| [`small-context-contributing.md`](small-context-contributing.md) | contribute with a small context window — measured costs, what never to load |
 | [`threat-model.md`](threat-model.md) | touch credentials, logging, adapters or anything security-shaped |
 | [`capital-protection.md`](capital-protection.md) | work on risk, position sizing or drawdown limits |
 | [`research-ethics.md`](research-ethics.md) | write anything a user might read as advice |

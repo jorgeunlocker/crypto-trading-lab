@@ -114,6 +114,12 @@ cryptocurrency research laboratory. Follow these rules exactly.
     is what turns a platform into a result when its turn comes.
 ```
 
+> **Working with a smaller context window?** The project is measured for it:
+> the prescribed startup reading costs roughly **7,000 tokens**, no task
+> needs all of `ROADMAP.md` (one chapter is 46 lines on average), and the
+> test suite is offline, so verification is cheap. See
+> [`docs/en/developers/small-context-contributing.md`](docs/en/developers/small-context-contributing.md).
+
 ### Ways to help — code optional
 
 - **Research / code** — implement an open ROADMAP chapter. The "Ahead"
