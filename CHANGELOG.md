@@ -162,6 +162,16 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   remains unverified.
 
 ### Changed
+- **The README's quick start now covers all three platforms.** It was titled
+  "Start in four commands" and those four commands were Debian-only, so a
+  Windows or macOS contributor left the first code block and had to find the
+  virtualenv tutorial further down. It is now "Start here — pick your
+  platform", with a verified block per platform, the Windows
+  execution-policy line explained where it is needed rather than two
+  screens later, and a note that `pdf` is not really optional: without
+  `pypdf` the report-export test skips, so the count becomes 3 skipped
+  instead of the advertised 2. Every block installs `".[dev,pdf]"`, which is
+  exactly what CI installs.
 - **ROADMAP chapter 25 (reference projects) is closed: `[x]`, 13 boxes
   ticked, 0 open.** It had been `[ ]` with every box reading as undone even
   though four studies were already concluded and documented

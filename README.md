@@ -49,7 +49,9 @@ break something.
 ideas, research results and show-and-tell →
 [Discussions](https://github.com/wachin/crypto-trading-lab/discussions).
 
-### Start in four commands
+### Start here — pick your platform
+
+**Debian 13 / Ubuntu** — the supported setup, system packages, no virtualenv:
 
 ```bash
 git clone https://github.com/wachin/crypto-trading-lab   # submodules optional, see below
@@ -58,9 +60,48 @@ QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q    # → 707 passed, 2 ski
 PYTHONPATH=src python3 -m crypto_trading_lab             # launch the app
 ```
 
-The default setup uses Debian system packages only. If you need a PyPI-only
-extra such as `ccxt`, or an isolated environment, see
-[Using a virtualenv](docs/en/developers/venv-setup.md).
+**macOS** — Apple Silicon and Intel both have wheels; Python 3.11+:
+
+```bash
+git clone https://github.com/wachin/crypto-trading-lab && cd crypto-trading-lab
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -e ".[dev,pdf]"                    # exactly what CI installs
+QT_QPA_PLATFORM=offscreen python -m pytest tests/ -q    # → 707 passed, 2 skipped
+python -m crypto_trading_lab
+```
+
+**Windows (PowerShell)** — Python 3.11+ from python.org or the Store:
+
+```powershell
+git clone https://github.com/wachin/crypto-trading-lab; cd crypto-trading-lab
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass   # this window only
+py -3 -m venv .venv; .\.venv\Scripts\Activate.ps1
+python -m pip install -e ".[dev,pdf]"                    # exactly what CI installs
+$env:QT_QPA_PLATFORM = "offscreen"
+python -m pytest tests -q                                # → 707 passed, 2 skipped
+python -m crypto_trading_lab
+```
+
+Add `,ccxt` for the multi-exchange adapter and `,credentials` for keyring
+storage, e.g. `".[dev,pdf,ccxt]"`. `pdf` is not optional in practice: without
+`pypdf` the report-export test skips and the count becomes 3 skipped instead
+of 2, which is why every command above installs it.
+
+The `Set-ExecutionPolicy` line exists because PowerShell blocks the
+activation script by default; `-Scope Process` limits the change to that
+window, needs no administrator rights and persists nothing. If you would
+rather not touch the policy, call `.\.venv\Scripts\python.exe` directly
+instead — that is what CI does. Full walkthroughs, including the errors these
+steps can raise and their fixes:
+[Install with pip](#install-with-pip--linux-macos-and-windows) below, and
+[`docs/en/developers/venv-setup.md`](docs/en/developers/venv-setup.md) for
+troubleshooting and the measured evaluation of `ccxt`.
+
+> The suite is offline and takes well under a minute on every platform, so
+> running it **before** you change anything is the cheapest way to know your
+> setup is sound. Windows 10 is verified; macOS is deliberately deferred to
+> the end of development — see
+> [What is verified, and what is not](#what-is-verified-and-what-is-not).
 
 ### Read these four files, in this order
 
