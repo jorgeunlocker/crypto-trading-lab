@@ -109,7 +109,9 @@ cryptocurrency research laboratory. Follow these rules exactly.
    caught by reading the repository instead of the report.
 10. Measured, not assumed. Write "verified on <platform>" only for a
     platform someone actually ran. Debian 13 and Windows 10 are verified;
-    macOS is not. The Experiments/ kit exists to turn that into a result.
+    macOS is deliberately postponed to the end of development (after Linux
+    and Windows), so do not treat it as the next task. The Experiments/ kit
+    is what turns a platform into a result when its turn comes.
 ```
 
 ### Ways to help — code optional
@@ -133,17 +135,19 @@ cryptocurrency research laboratory. Follow these rules exactly.
 - **Pick up a known gap** —
   [`docs/en/developers/unwired-modules-audit.md`](docs/en/developers/unwired-modules-audit.md)
   records every module that was found unwired, with a decision and its
-  evidence; `strategy_registry.py` is the only one left.
+  evidence. All 16 are resolved; the newest open item is the group of CLI
+  subcommands that still only print and return `0`.
 - **Verify another platform** — [`Experiments/`](Experiments/README.md) is a
-  self-contained kit (dependencies, sample data, twelve checks, a tick-box
-  manual). Windows 10 is done; **macOS is not**.
+  self-contained kit (dependencies, sample data, its offline checks, a
+  tick-box manual). Windows 10 is done; **macOS is deliberately left for the
+  end of development**, once Linux and Windows are finished (see
+  [What is not verified](#what-is-not-verified)).
 
 ### Good first contributions
 
 | Task | Where |
 |---|---|
-| Wire (or delete) the last unwired module: the strategy registry | `strategy_registry.py`, chapters 36/77 |
-| Verify the application and the suite on **macOS** | `Experiments/`, manual `cross-platform` workflow |
+| Implement (or remove) the CLI subcommands that only print and return `0` | `cli.py`, chapter 22 |
 | Feed the chapter-56 execution model into the backtest engine too | `backtesting/engine.py`, chapter 56.5 |
 | Finish the Debian packaging (stale `debian/rules`, missing dependencies) | `debian/`, chapter 16 |
 | Add the missing glossary terms (asset, blockchain, wallet, spread, liquidity, out-of-sample, walk-forward, robustness…) | `docs/en/beginners/glossary.md`, chapter 24 |
@@ -151,6 +155,11 @@ cryptocurrency research laboratory. Follow these rules exactly.
 | Lesson → screen links in the Learning Center | `ui/education/`, chapter 80 |
 | Parameter sweep launched from the Strategy Builder | `ui/strategy_builder.py`, chapter 77 |
 | Beginner chart tutorials | `docs/en/beginners/`, chapter 19.2 |
+
+> **Not on this list on purpose: macOS.** The maintainer has decided to leave
+> macOS verification until the end, once the program runs on Linux and
+> Windows. Do not open a macOS PR as a priority; the manual
+> `cross-platform` workflow stays available for whoever gets there.
 
 ### The rules that keep this repository honest
 
@@ -255,13 +264,14 @@ Debian system packages, no pip. The same code also installs as an ordinary
 Python package, which is what macOS and Windows need and what a Linux user
 may prefer for an isolated environment.
 
-> **What is verified.** Debian 13 with the system packages is the only stack
-> this repository actually runs: **707 passed, 2 skipped**. The macOS and
-> Windows commands below follow from those platforms (PyQt6, pyqtgraph,
-> SQLAlchemy and platformdirs all publish wheels for both) but have **not
-> been executed by the maintainer yet** — no macOS or Windows machine was
-> available. Run them once and correct what differs; see
-> [What is not verified](#what-is-not-verified).
+> **What is verified.** Debian 13 with the system packages is the supported
+> stack: **707 passed, 2 skipped**. **Windows 10 is also verified** (Python
+> 3.14.7, everything from PyPI, 2026-10-01 — clean install, the window opens,
+> identical numbers; see [What is not verified](#what-is-not-verified)).
+> **macOS is deliberately left for the end of development**: the commands
+> below follow from the platform and all four packages publish wheels for it,
+> but nobody has run them, and that is a scheduling decision, not a missing
+> result. See [What is not verified](#what-is-not-verified).
 
 Requirement: **Python 3.11 or newer** (3.13 is what the suite runs on).
 `pip install .` pulls the four runtime packages; the extras add the rest:
@@ -376,8 +386,10 @@ directly (this is exactly what CI does):
   The full PowerShell transcript is kept in
   [`Experiments/20261001-resultado-de-la-instalacion-en-Windows-10.txt`](Experiments/20261001-resultado-de-la-instalacion-en-Windows-10.txt);
   the run also exposed a real bug, now fixed — see below.
-- **macOS**: **not verified**. Not surprising if it works, not surprising if
-  it does not; nobody has run it.
+- **macOS**: **not verified, on purpose.** The maintainer's decision is to
+  leave macOS until the end of development, once the program works on Linux
+  and Windows. The tutorial below is written from the platform, not measured;
+  treat the first macOS run as an experiment, not as a regression.
 - **Windows note:** the activation error is real and the fix in the tutorial
   (`Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`) is what the
   Windows run used.

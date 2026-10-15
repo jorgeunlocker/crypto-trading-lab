@@ -114,6 +114,22 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   The run also exposed the segmentation fault fixed below. macOS
   remains unverified.
 
+### Changed
+- **macOS verification is deferred to the end of development** by the
+  maintainer's decision, after Linux and Windows. The `README.md` (agent
+  prompt, good-first-contributions, "What is not verified"), the
+  `Experiments/` kit, `AGENT-HANDOFF.md`, the virtualenv guide and the
+  manual `cross-platform` workflow all say so now, so a contributing agent
+  does not pick macOS up as the next task and does not read a red macOS job
+  as a blocker.
+- The documented test baseline was refreshed from the stale `702`/`704` to
+  the measured **707 passed, 2 skipped** in the `README.md` badge and
+  tutorials, `AGENTS.md`, `AGENT-HANDOFF.md`, `CONTRIBUTING.md`, the pull
+  request template, `docs/en/developers/`, the `Makefile` and the
+  `tests.yml` comment. `AGENTS.md` rule 2 no longer claims that no virtual
+  environment has ever been needed, which had been false since the extras
+  (`ccxt`, `pypdf`, `keyring`, `aiohttp`, `websockets`) were documented.
+
 ### Fixed
 - **`StrategyRegistry` wrote to disk as a side effect of being built.**
   Its constructor created `data/strategy_registry/registry.json` under the

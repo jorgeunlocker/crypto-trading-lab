@@ -4,9 +4,14 @@ This folder exists for one reason: the whole test suite is verified on
 **Debian 13** — the current baseline is `707 passed, 2 skipped` — and on
 **Windows 10**, where the revision measured on 2026-10-01 reported
 `698 passed, 2 skipped` (the count grows as tests are added; see the result
-below). Everything else — macOS, a different Linux, another Python — is
-expected to work, but nobody has measured it yet. This kit turns that
-"should work" into a real result you can send back.
+below). Everything else — a different Linux, another Python, another
+machine — is expected to work, but nobody has measured it yet. This kit
+turns that "should work" into a real result you can send back.
+
+**About macOS:** it is intentionally not measured yet. The maintainer's
+decision is to leave macOS for the end of development, once the program
+works on Linux and Windows, so the macOS section below is a prepared
+starting point rather than a pending task. Do not treat it as a priority.
 
 It is safe: the application is research, backtesting and paper trading. It
 **never** trades real money, and it refuses to by default.
@@ -133,6 +138,10 @@ Three ways to avoid the policy entirely:
 
 ## macOS
 
+> **Deferred by decision.** macOS comes last, after Linux and Windows. These
+> steps are prepared but unmeasured; use them when its turn arrives, not
+> before.
+
 No system packages are needed; Apple Silicon and Intel both have wheels.
 
 ```bash
@@ -214,8 +223,10 @@ it is what can actually be fixed.
 ## Honest limitations
 
 - This kit verifies; it cannot fix. The failures it finds are the useful part.
-- Windows 10 is verified (2026-10-01, above). **macOS is not** — nobody has
-  run it. A preview of what could differ: `tools/make_banner_gif.py` (which
+- Windows 10 is verified (2026-10-01, above). **macOS is not, and that is a
+  decision, not a missing result:** it is deliberately postponed to the end
+  of development, after Linux and Windows. When its turn comes, a preview of
+  what could differ: `tools/make_banner_gif.py` (which
   only regenerates the README banner, not the application) hardcodes Debian
   font paths; `debian/` is Debian packaging and is irrelevant elsewhere;
   `keyring` is optional and the application says so if it is missing;

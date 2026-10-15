@@ -32,10 +32,12 @@ and the measured `ccxt` evaluation.
 > **Verified:** Debian 13 (system packages) — 707 passed, 2 skipped, exit 0.
 > **Windows 10** — verified on 2026-10-01 with these exact steps: clean `pip`
 > install, the window opens, and the suite reports the same results on Python
-> 3.14.7. **macOS is not verified**: the commands follow from the platform but
-> no Mac has run them. The manual
+> 3.14.7.
+> **macOS — deferred:** the commands follow from the platform, but no Mac has
+> run them, and the maintainer's decision is to leave macOS for the end of
+> development, after Linux and Windows. The manual
 > [`cross-platform` workflow](../../../.github/workflows/cross-platform.yml)
-> exists to measure that.
+> exists to measure it when its turn comes.
 
 For a machine with no Debian packages at all, [`Experiments/`](../../../Experiments/README.md)
 is a self-contained kit: `requirements-all.txt` (every dependency, including

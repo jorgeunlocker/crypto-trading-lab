@@ -13,6 +13,12 @@
 #
 # Expect the first run to fail on a platform-specific assumption; that
 # failure is the finding, and the fix belongs in the code or the tutorial.
+#
+# **macOS is deliberately last.** The maintainer's decision is to leave macOS
+# until the end of development, once Linux and Windows work, so a red macOS
+# job here is expected and is not a blocker: read the other two rows first.
+# Windows 10 was verified by hand on 2026-10-01 (see Experiments/); the
+# `windows-latest` row keeps that measurement reproducible.
 
 name: cross-platform
 
@@ -39,13 +45,13 @@ jobs:
         os: [ubuntu-24.04, macos-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # The external/ reference projects are not needed to test.
           submodules: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ inputs.python-version }}
 

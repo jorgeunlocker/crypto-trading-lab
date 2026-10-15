@@ -19,10 +19,17 @@ A new AI Agent must read this file **before** doing anything else, then
   `QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q`
   (The exit code matters: the suite used to segfault while the interpreter
   shut down, so it printed "passed" and still failed the build. See §5.)
+- **CI:** `tests` is **green on `main`** — run 38772811163 (2026-10-15)
+  reports the same 707/2 on `ubuntu-24.04` with pip. It had never passed
+  before. Do not let a push go red without reading the log.
 - **Verified platforms:** Debian 13 (system packages, Python 3.13.5) and
   **Windows 10** (pip/PyPI, Python 3.14.7, 2026-10-01 — clean install, the
-  window opens, identical numbers, `ccxt` reaches the network). **macOS is
-  not verified.**
+  window opens, identical numbers, `ccxt` reaches the network).
+- **macOS — deferred by the maintainer's decision, not a pending task.** It
+  comes last, once the program works on Linux and Windows. Do not spend a
+  session on it and do not treat a macOS failure as a blocker. The steps are
+  prepared in `README.md` and `Experiments/README.md`; the manual
+  `cross-platform` workflow can measure it when its turn arrives.
 - **Source:** 115 Python files under `src/crypto_trading_lab/`
 - **Tests:** 64 test modules under `tests/`
 - **Documentation:** `docs/en/beginners/` and
@@ -299,7 +306,14 @@ features the code did not ship. Concretely:
 - **The CI was red for a real reason**: `ubuntu-24.04` ships SQLAlchemy 1.4
   and the code needs 2.0. `tests.yml` now installs with pip, and the manual
   `cross-platform` workflow runs Ubuntu, macOS and Windows.
-- **Windows 10 is verified** (`Experiments/`); macOS is not.
+- **The default CI is green for the first time.** Run
+  [38772811163](https://github.com/wachin/crypto-trading-lab/actions/runs/38772811163)
+  (2026-10-15, commit `7eecb0c`) reports `707 passed, 2 skipped` on
+  `ubuntu-24.04` with SQLAlchemy 2.1.4 and pypdf installed — the same numbers
+  as Debian. The two skips are the intentional "adapter under test has
+  trading enabled" guards, not missing dependencies.
+- **Windows 10 is verified** (`Experiments/`). **macOS is deferred to the end
+  of development by the maintainer's decision** — see §1.
 
 ### 5.2 The backlog, in the order that makes sense
 
