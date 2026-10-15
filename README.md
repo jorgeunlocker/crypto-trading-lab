@@ -32,12 +32,13 @@ Survive → Validate → Earn. In that order, non-negotiable.
 
 Crypto Trading Lab is not a finished product; it is a *specification with
 a codebase catching up to it*. `ROADMAP.md` holds 80 chapters of
-requirements — **2,828 checkboxes, of which 937 are done and 1,891 are
-still open** — each one small enough to land in a focused pull request.
-That makes it an unusually good place for an AI agent to do real,
-verifiable work: the task is already written down, the test suite runs
-offline in well under a minute, and honesty is a hard rule rather than a
-slogan.
+requirements — 2,828 checkboxes — and **roughly two thirds of them are
+still open** (its status table counts them per chapter, so the number is
+always current). Each one is small enough to land in a focused pull
+request. That makes it an unusually good place for an AI agent to do
+real, verifiable work: the task is already written down, the test suite
+runs offline in well under a minute, and honesty is a hard rule rather
+than a slogan.
 
 You bring the agent (or your own two hands). We bring the specification,
 the safety rails and a green test suite that tells you the moment you
@@ -150,6 +151,38 @@ cryptocurrency research laboratory. Follow these rules exactly.
   end of development**, once Linux and Windows are finished (see
   [What is not verified](#what-is-not-verified)).
 
+### What you get out of it
+
+This is not only a place to be useful. It is an unusually good place to
+learn the material that most repositories only gesture at:
+
+- **The techniques have names, definitions and tests.** Purged and
+  embargoed cross-validation, the deflated Sharpe ratio, the probability of
+  backtest overfitting, triple-barrier labelling and meta-labelling are
+  specified in
+  [`afml-techniques.md`](docs/en/developers/afml-techniques.md) and mapped
+  to the chapters that implement them. You build against a written
+  definition, not a blog post.
+- **The hard reading is already done.** Eight major projects — freqtrade,
+  hummingbot, jesse, ccxt, vectorbt, backtrader, ta-lib and the AFML
+  exercises — were studied in
+  [`reference-projects.md`](docs/en/developers/reference-projects.md): what
+  each does, what it verifiably does **not** do, and whether its licence
+  lets you adapt its code. Months of reading, compressed into one document.
+- **Verification is cheap and honest.** The suite is offline, runs in well
+  under a minute, and *"no edge exists"* is a legitimate result here rather
+  than a failed experiment.
+- **You will be told when you are wrong.** Three claims that upstream
+  projects advertise were disproved by reading their code during the
+  reference study, and the corrections are in the repository. The same
+  standard applies to your pull request — it will be checked, not waved
+  through.
+
+**Credit and licensing.** There is no CLA and no copyright assignment: the
+project is GPL-3.0, you keep the copyright of your contribution, and it is
+licensed under the same terms. Your work stays attributed in the git
+history and is recorded in [`CHANGELOG.md`](CHANGELOG.md).
+
 ### Good first contributions
 
 | Task | Where |
@@ -178,6 +211,11 @@ cryptocurrency research laboratory. Follow these rules exactly.
 - The program must be able to conclude *"no edge exists"* — and say so.
 - The AFML book is cited by bibliographic reference only; its text and
   code are never copied into this repository.
+- **The repository documents its own failures.** [`CHANGELOG.md`](CHANGELOG.md)
+  records that the test suite once printed "passed" and then segfaulted,
+  that CI had never been able to pass, and that a documentation audit found
+  16 modules wired to nothing. A project that writes those down is a
+  project whose other claims are worth reading.
 
 Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full workflow.
 
@@ -733,7 +771,6 @@ profit.
 | `CODE_OF_CONDUCT.md` | How we treat each other while we do it |
 | `CHANGELOG.md` | Notable changes, newest first |
 | `SECURITY.md` | Security posture and private vulnerability reporting |
-| `GENESIS.md` | The original first-session instruction |
 | `docs/en/beginners/` | Plain-language guides (start here, glossary, indicators, metrics, paper trading) |
 | `docs/en/developers/` | Indexed developer docs — ADRs, AFML specifications, threat model, live-trading roadmap ([start here](docs/en/developers/README.md)) |
 | `src/crypto_trading_lab/` | Source: domain, exchanges, security, persistence, market data, indicators, backtesting, research, reporting, i18n, UI |

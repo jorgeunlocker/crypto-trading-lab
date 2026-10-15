@@ -2,7 +2,8 @@
 
 Ground rules for any AI Agent working in this repository.
 Read `AGENT-HANDOFF.md` first if you are starting a session in a
-freshly migrated copy, then `GENESIS.md`, then `ROADMAP.md`.
+freshly migrated copy, then the `ROADMAP.md` chapter that owns your
+task.
 
 ## Non-negotiable rules
 
@@ -28,10 +29,18 @@ freshly migrated copy, then `GENESIS.md`, then `ROADMAP.md`.
 4. **Vision and mission.** Survive → validate → earn. The program
    never promises profits and must tell the user the truth when no
    statistical edge exists. Capital protection outranks profit
-   seeking: never encourage trading money needed to live.
+   seeking: never encourage trading money needed to live. The sentence
+   that states the whole project is: *"This program tries, with
+   scientific honesty, to find and validate an edge — and it tells you
+   the truth when there isn't one."* Nobody can promise which year the
+   rain comes; some people do make a living from these markets, and
+   they are the ones who measure and protect themselves from the bad
+   years rather than the ones who hope.
 5. **Honesty in reporting.** Only claim a test passed if you ran it.
    Show real command output. If a tool is missing, say so and give
-   the command; never pretend success.
+   the command; never pretend success. Never mock a missing import or
+   stub a missing component to make work appear to continue — stop and
+   report the blocker instead.
 6. **The AFML book rule.** *Advances in Financial Machine Learning*
    (Marcos López de Prado, Wiley 2018) is cited by bibliographic
    reference only. Record every technique mapping and definition in
@@ -49,6 +58,14 @@ freshly migrated copy, then `GENESIS.md`, then `ROADMAP.md`.
    (`QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q`) after
    every iteration; update documentation in the same change;
    beginner-oriented explanations accompany user-facing features.
+   Build only what the task needs: never scatter empty stubs or
+   placeholder modules to mirror the planned architecture — that
+   produces the documentation-vs-code drift this project already
+   spent a review cleaning up.
+9. **Silence is not approval.** Do not assume that because nobody
+   answered, the work was accepted. Stop at the boundary you were
+   given and wait for an explicit answer; if you must proceed on an
+   assumption, state the assumption where the human will see it.
 
 ## Environment facts (verify at session start)
 

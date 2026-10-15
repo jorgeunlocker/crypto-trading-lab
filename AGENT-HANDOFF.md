@@ -264,12 +264,14 @@ These rules are canonical. Every Agent working here inherits them:
 
 1. **Read `ROADMAP.md` first**; treat it as the specification. Never
    silently simplify or omit its requirements.
-2. **MANDATORY STOP RULE for dependencies** (chapter 4.0 and GENESIS.md
-   rule 6): if a new dependency is needed, STOP, notify the developer
-   with package name, source (Debian/PyPI), reason, and exact command.
-   Debian package → developer runs `apt install`. PyPI-only → the
-   developer creates a venv (`.venv`), the Agent never installs or
-   creates environments itself. No package has required a venv so far.
+2. **MANDATORY STOP RULE for dependencies** (chapter 4.0 and
+   `AGENTS.md` rule 2): if a new dependency is needed, STOP, notify the
+   developer with package name, source (Debian/PyPI), reason, and exact
+   command. Debian package → developer runs `apt install`. PyPI-only →
+   the developer creates a venv (`.venv`), the Agent never installs or
+   creates environments itself. The four required runtime dependencies
+   come from Debian system packages; the optional extras (`ccxt`,
+   `pypdf`, `keyring`, `aiohttp`, `websockets`) are PyPI-only.
 3. **No real credentials**, no `eval()`/`exec()`, real trading stays
    disabled, strategies never bypass the risk manager.
 4. **Vision and mission** (see ROADMAP.md intro): survive → validate

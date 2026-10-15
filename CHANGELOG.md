@@ -14,6 +14,21 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
 
 ### Added
 
+- **A "What you get out of it" section in the README's contribution
+  pitch.** The pitch sold the *mechanics* — a written specification, small
+  PRs, an offline suite — but never the *domain*: that a contributor
+  implements purged cross-validation, the deflated Sharpe ratio and
+  triple-barrier labelling against written definitions, with eight major
+  reference projects already studied so they do not have to. It also states
+  the credit terms plainly, which the README did not mention at all: no CLA,
+  no copyright assignment, GPL-3.0, attribution kept in git and the
+  CHANGELOG.
+- **An honesty signal in "The rules that keep this repository honest".**
+  The CHANGELOG records that the suite once printed "passed" and then
+  segfaulted, that CI had never been able to pass, and that an audit found
+  16 modules wired to nothing. Pointing at that is a stronger invitation
+  than a claim of perfection, and it is checkable.
+
 - **`reference-projects.md` Parts E–H, completing ROADMAP chapter 25.**
   The four remaining references under `external/` are now studied and
   documented to the same evidence standard as Parts A–D — every claim tied
@@ -355,6 +370,16 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
 
 ### Removed
 
+- **`GENESIS.md`.** It was the Phase 0 bootstrap instruction written when
+  the repository was empty, and every deliverable it ordered now exists
+  (the dependency research, the architecture proposal, the threat model,
+  the seven ADRs and the first beginner guides), so it had become a second,
+  partly contradictory onboarding list: the README told contributors to
+  read four files while `AGENTS.md` told agents to also read `GENESIS.md`.
+  Two rules in it existed nowhere else and moved into `AGENTS.md` first —
+  *silence is not approval*, and *build only what the task needs, never
+  empty stubs mirroring the planned architecture* — along with the project's
+  one-sentence creed. `AGENTS.md` rule 2 no longer points at it.
 - Obsolete root-level scratch files (translation scripts, an orphan
   JSON Schema and internal audit/plan notes). They are preserved
   locally under `.scratch/`, which is git-ignored.

@@ -30,7 +30,7 @@ before writing code, and tick a checkbox only when the requirement is
 | 1 | [ ] | 0 | 33 | No | Project purpose and scientific principles |
 | 2 | [ ] | 0 | 26 | No | Terminology and conventions |
 | 3 | [~] | 2 | 17 | No | Supported platforms and technologies |
-| 4 | [~] | 5 | 87 | No | Debian dependency priority |
+| 4 | [~] | 6 | 86 | No | Debian dependency priority |
 | 5 | [ ] | 0 | 31 | No | Mandatory project principles |
 | 6 | [~] | 1 | 137 | No | Architecture |
 | 7 | [~] | 19 | 20 | No | Domain models |
@@ -288,7 +288,7 @@ The AI Agent must apply this rule without exception:
   4. the exact command the developer must run.
 - [ ] If the package exists in the Debian repositories, the developer installs it with `apt`; the Agent then verifies the import works and continues.
 - [ ] If the package exists only on PyPI, the developer must create and activate a virtual environment (`python3 -m venv .venv`), and only then may the Agent use it inside that venv. The Agent must never create, activate, or install into a venv on its own.
-- [ ] To this day no venv has been needed because every required package is available in the distribution; the first PyPI-only dependency will require this venv procedure, and the Agent must warn the developer before that happens.
+- [x] The four **required** runtime dependencies are available as Debian packages, so the supported Debian 13 setup needs no venv. The **optional extras are PyPI-only** — `ccxt`, `pypdf`, `keyring`, `aiohttp`, `websockets` — and do require the venv procedure above; they are documented in `docs/en/developers/venv-setup.md` and declared as extras in `pyproject.toml`. The Agent must warn the developer before any of them becomes necessary.
 - [ ] The Agent must not proceed past a missing dependency, must not mock a missing import to pretend work continues, and must record the blocker in the final report until the developer resolves it.
 
 Before choosing any dependency:
