@@ -33,7 +33,7 @@ So the window is not the constraint. The constraint is discipline.
 
 | Do not | Why |
 |---|---|
-| Read anything under `external/` | 8 vendored reference projects; 930 MB of working tree and **11 GB** of git history. The application builds and tests **without** them, and the study conclusions are already written in `reference-projects.md`. Fetch one, never all, and never to answer a question the document already answers. |
+| Read anything under `external/` | It is not there. A fresh clone has no `external/` directory, the eight reference projects are 11 GB of git history, and their study is **concluded** — the conclusions are in `reference-projects.md` (Parts A–H). Read that document, never the repositories. |
 | Read a whole large source file | The biggest are `exchanges/ccxt/adapter.py` (1,011 lines), `paper_session.py` (913), `ui/backtesting/lab.py` (868), `exchanges/binance/adapter.py` (825). Use grep for the symbol, then read only that function with `offset`/`limit`. |
 | Read `ROADMAP.md` from top to bottom | 45 K tokens to find one chapter. Jump to the chapter that owns the task. |
 | Read a whole test log | The suite prints 4 warnings and a long summary. Use `tail`, and read the **exit code**. |

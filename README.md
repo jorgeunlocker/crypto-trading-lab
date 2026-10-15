@@ -246,29 +246,27 @@ PYTHONPATH=src python3 -m crypto_trading_lab
 research…` and read the validity dashboard before believing any number.
 
 <details>
-<summary><strong>Optional: the <code>external/</code> reference submodules (~11 GB download)</strong></summary>
+<summary><strong>You do <em>not</em> need <code>external/</code> — the reference studies are finished</strong></summary>
 
-`external/` vendors eight reference projects (freqtrade, hummingbot,
-jesse, ccxt, vectorbt, backtrader, ta-lib, AFML exercises) that were
-studied while designing this one. They are **not needed to build, run or
-test the application** — fetch them only if you are doing the
-reference-project research described in
-[`docs/en/developers/reference-projects.md`](docs/en/developers/reference-projects.md).
+**A fresh clone has no `external/` directory, and that is correct.** The
+eight reference projects (freqtrade, hummingbot, jesse, ccxt, vectorbt,
+backtrader, ta-lib, AFML exercises) were studied while designing this one;
+the study is **concluded** and its conclusions are written down in
+[`docs/en/developers/reference-projects.md`](docs/en/developers/reference-projects.md)
+(Parts A–H). They are **not needed to build, run, test or contribute to the
+application** — nothing in `src/`, `tests/`, `pyproject.toml` or `Makefile`
+refers to them, and both CI workflows pass `submodules: false`.
 
-**Read the size warning before you run this.** The working copies are
-930 MB, but `git submodule update --init --recursive` fetches full history:
-the object stores are **11 GB**, and `external/ccxt` alone is 8 GB of it.
+Read the conclusions, not the repositories. Only fetch one if you want to
+**re-verify** a specific claim, and then fetch only that one:
 
 ```bash
-# Fetch only the one your task actually studies — not all eight:
 git submodule update --init external/freqtrade
 ```
 
-Do not use `--recursive` unless you really need every reference at once.
-The study's conclusions, including what each one is worth reading for, are
-already written down; see
-[`reference-projects.md`](docs/en/developers/reference-projects.md) →
-"Disk cost, and what can be removed".
+**Size warning:** the working copies are 930 MB, but a fetch downloads full
+history — **11 GB** for all eight, 8 GB of it `external/ccxt`. Never run
+`git submodule update --init --recursive` casually.
 
 </details>
 

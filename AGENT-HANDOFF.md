@@ -42,15 +42,16 @@ A new AI Agent must read this file **before** doing anything else, then
   which has no `ccxt`; 13 passed in the Windows venv. `--network`, `--gui`
   and `--tests` add more). `setup_windows.bat` is one-click.
 - **Specification:** `ROADMAP.md` — 80 chapters in 16 parts
-- **Git submodules:** 8 *optional* reference projects under `external/`;
+- **Git submodules:** 8 *optional* reference projects under `external/`.
+  **A fresh clone has no `external/` directory, and you do not need one** —
   the application builds and tests without them (both CI workflows pass
-  `submodules: false`). **All eight are now studied** — chapter 25 is `[x]` and
-  the conclusions live in `reference-projects.md` Parts A–H — so the whole
-  directory is **removable**: it costs 12 GB, 11 GB of it in `.git/modules`
-  and 8.5 GB in `ccxt` alone. The release procedure is in that document under
-  "Disk cost, and what can now be removed"; it was tested and is reversible
-  with `git submodule update --init <path>`. Never fetch all eight with
-  `--recursive` just to answer a question the document already answers.
+  `submodules: false`). **All eight are studied**: chapter 25 is `[x]` and the
+  conclusions are in `reference-projects.md` Parts A–H. Read that document;
+  go to a repository only to re-verify a specific claim, and fetch that one
+  alone (`git submodule update --init external/<name>`). Never `--recursive`
+  by reflex: it downloads 12 GB, 8.5 GB of it `ccxt`. If you have fetched
+  them and want the space back, the tested procedure is in that document
+  under "Disk cost, and what can now be removed".
 - **Current phase:** the scientific engine is mature. The 2026-09/10 review
   fixed the documentation-vs-code drift and cleared all 16 unwired modules
   found in the audit; the last one, `strategy_registry`, was wired into the

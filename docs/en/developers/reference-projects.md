@@ -718,10 +718,14 @@ section.
 
 ## Disk cost, and what can now be removed
 
-Measured 2026-10-15. The working copies under `external/` are **930 MB**, but
-the real cost is the git object store: `.git/modules/` holds **11 GB**, and
-the checkout is **12 GB** in total. `external/ccxt` alone — working tree plus
-its object store — is **8.5 GB**, 70 % of everything.
+Measured 2026-10-15. **A fresh clone has no `external/` directory at all** —
+git does not store empty directories, and submodules are not fetched by
+default, so nothing under `external/` is in your working tree unless you ask
+for it. The measurements below are what a fetch would cost: the working
+copies are **930 MB**, but the real cost is the git object store, where
+`.git/modules/` holds **11 GB** and the checkout reaches **12 GB**.
+`external/ccxt` alone — working tree plus object store — is **8.5 GB**, 70 %
+of everything.
 
 | Reference | Study | Working tree | `.git/modules` |
 |---|---|---|---|
@@ -772,6 +776,22 @@ Leave the `.gitmodules` entries in place. They cost nothing at clone time
 (submodules are not fetched by default) and they carry the pinned revisions
 the Parts above refer to. A fork keeps the option to re-fetch without any
 change to this document.
+
+**One trap, found the hard way (2026-10-15).** A submodule is tracked as a
+*gitlink* — an index entry of mode `160000` — not as a normal directory, so
+after `deinit` **the empty directory must stay**. Running `rm -rf external`
+removes those placeholders and `git status` then reports eight deletions;
+a later `git add -A` would stage the removal of the submodules from the
+repository, which is a different change from reclaiming disk and is not what
+this section describes. If it happens, recreate the placeholders and the
+status returns to clean:
+
+```bash
+git submodule status | awk '{print $2}' | while read -r p; do mkdir -p "$p"; done
+```
+
+`git ls-files -s external` should show eight entries of mode `160000`; that,
+not the directory listing, is the truth about what the repository tracks.
 
 ## Maintenance rules for this document
 
