@@ -32,11 +32,12 @@ Survive → Validate → Earn. In that order, non-negotiable.
 
 Crypto Trading Lab is not a finished product; it is a *specification with
 a codebase catching up to it*. `ROADMAP.md` holds 80 chapters of
-requirements, roughly half still open, each one small enough to land in a
-focused pull request. That makes it an unusually good place for an AI
-agent to do real, verifiable work: the task is already written down, the
-test suite runs offline in ~45 seconds, and honesty is a hard rule rather
-than a slogan.
+requirements — **2,828 checkboxes, of which 937 are done and 1,891 are
+still open** — each one small enough to land in a focused pull request.
+That makes it an unusually good place for an AI agent to do real,
+verifiable work: the task is already written down, the test suite runs
+offline in well under a minute, and honesty is a hard rule rather than a
+slogan.
 
 You bring the agent (or your own two hands). We bring the specification,
 the safety rails and a green test suite that tells you the moment you
@@ -506,12 +507,21 @@ validity flags and assumptions (ROADMAP chapter 40).
 
 | Family | Metrics | Definitions |
 |---|---|---|
-| Returns | total, annualized | $R = \dfrac{E_T - E_0}{E_0}$, $\quad R_{\text{ann}} = (1+R)^{n_{\text{yr}}/P} - 1$ |
+| Returns | total, annualized | $R = \dfrac{E_T - E_0}{E_0}$, $\quad R_{ann} = (1+R)^{n/P} - 1$ |
 | Drawdown | max, duration, average | $DD_t = \dfrac{\max_{s \le t} E_s - E_t}{\max_{s \le t} E_s}$ |
-| Risk | volatility, downside | $\sigma \cdot \sqrt{n}$, $\quad \sigma^- = \sqrt{\tfrac{1}{n}\sum \min(r_i,0)^2}\cdot\sqrt{n}$ |
-| Ratios | Sharpe, Sortino, Calmar | $\mathrm{SR} = \dfrac{\bar r - r_f}{\sigma}\sqrt{n}$, $\quad \mathrm{Sortino} = \dfrac{\bar r - r_f}{\sigma^-}\sqrt{n}$ |
-| Trades | profit factor, expectancy | $\mathrm{PF} = \dfrac{\sum \mathrm{wins}}{\lvert\sum \mathrm{losses}\rvert}$, $\quad \mathbb{E}[\mathrm{trade}] = \overline{\mathrm{PnL}}$ |
+| Risk | volatility, downside | $\sigma \cdot \sqrt{n}$, $\quad \sigma^- = \sqrt{\tfrac{1}{P}\sum_{i=1}^{P} \min(r_i,0)^2}\cdot\sqrt{n}$ |
+| Ratios | Sharpe, Sortino, Calmar | $SR = \dfrac{\bar r - r_f/n}{\sigma}\sqrt{n}$, $\quad Sortino = \dfrac{\bar r - r_f/n}{\sigma^-}\sqrt{n}$, $\quad Calmar = R_{ann} / DD_{max}$ |
+| Trades | profit factor, expectancy | $PF = \dfrac{\sum \mathrm{wins}}{\lvert\sum \mathrm{losses}\rvert}$, $\quad \mathbb{E}[\mathrm{trade}] = \overline{\mathrm{PnL}}$ |
 | Activity | turnover, fees, spread, slippage | exact per-fill attribution |
+
+where $n$ is the number of periods per year, $P$ the number of observed
+periods, $r_f$ the **annual** risk-free rate (divided by $n$ because the
+ratio is computed per period), $\sigma$ the **population** standard
+deviation of per-period returns, and $DD_{max}$ the worst $DD_t$. Every one
+of these is implemented in
+[`backtesting/metrics.py`](src/crypto_trading_lab/backtesting/metrics.py)
+and pinned by tests; where a term is undefined (zero volatility, no losing
+trades) the metric is reported as absent rather than as a misleading number.
 
 **Statistical safeguards baked in:**
 
