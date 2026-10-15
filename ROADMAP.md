@@ -46,7 +46,7 @@ before writing code, and tick a checkbox only when the requirement is
 | 22 | [~] | 1 | 22 | No | Complementary CLI |
 | 23 | [~] | 5 | 32 | No | Built-in Learning Center |
 | 24 | [~] | 54 | 0 | Sí | Glossary |
-| 25 | [ ] | 0 | 13 | No | Reference projects |
+| 25 | [~] | 4 | 9 | No | Reference projects |
 | 26 | [~] | 36 | 6 | No | Market-data sources and exchange adapters |
 | 27 | [~] | 21 | 1 | No | Connection state management |
 | 28 | [~] | 19 | 1 | No | Data import |
@@ -1760,7 +1760,7 @@ Every glossary entry must include:
 
 ---
 
-## [ ] 25. Reference projects
+## [~] 25. Reference projects
 
 The repositories under `external/` are **technical and architectural references**.
 
@@ -1769,14 +1769,14 @@ The repositories under `external/` are **technical and architectural references*
 
 Technical references:
 
-- [ ] **Backtrader** (`external/backtrader`): study event-driven backtesting design, analyzers (Sharpe, drawdown, trade analysis, SQN, VWR, Calmar), broker simulation, and feed handling. Use as inspiration for Chapter 37, not as a runtime dependency.
-- [ ] **CCXT** (`external/ccxt`): study the unified exchange API design, market metadata normalization (precision, limits), REST/WebSocket abstraction, and the many exchange quirks handled. Use as inspiration for Chapter 26 exchange adapters; verify Debian/PyPI packaging before use.
+- [x] **Backtrader** (`external/backtrader`): study event-driven backtesting design, analyzers (Sharpe, drawdown, trade analysis, SQN, VWR, Calmar), broker simulation, and feed handling. Use as inspiration for Chapter 37, not as a runtime dependency. **Done — `reference-projects.md` Part B.**
+- [x] **CCXT** (`external/ccxt`): study the unified exchange API design, market metadata normalization (precision, limits), REST/WebSocket abstraction, and the many exchange quirks handled. Use as inspiration for Chapter 26 exchange adapters; verify Debian/PyPI packaging before use. **Done — Part D; PyPI-only, verified live (104 exchanges), `ccxt` is an optional extra.**
 - [ ] **Freqtrade** (`external/freqtrade`): study strategy/execution separation, dry-run (paper) mode, hyperopt (parameter optimization), persistence, and its cautious default posture. Inspect for Chapters 33, 39, and 57.
 - [ ] **Hummingbot** (`external/hummingbot`): study execution and order-management design, market-making/arbitrage logic, and connector architecture. Inspect for Chapters 56 and 26.
 - [ ] **Jesse** (`external/jesse`): study its research loop: backtest, optimization, Monte Carlo simulation, rule significance testing, and machine-learning pipeline. Inspect for Chapters 43–50; note that Jesse's feature set must be verified per feature.
 - [ ] **TA-Lib** (`external/ta-lib`): study the indicator catalog and naming. It is a C library; check whether the Python wrapper is available as a Debian package before use. Indicator requirements remain defined by Chapter 31.
-- [ ] **VectorBT** (`external/vectorbt`): study vectorized backtesting, walk-forward optimization, and portfolio analytics concepts. Inspect for Chapters 37 and 45; verify Debian/PyPI packaging.
-- [ ] **Advances in Financial Machine Learning — exercises** (`external/adv-financial-ml-marcos-exercises`): study the exercise solutions and the book's own snippets: event-based bars, triple-barrier labeling, sample weighting, purged/embargoed cross-validation, feature importance, and parallelization. Reference for Chapters 29, 38, and 43–50; the code is MIT-licensed and may be adapted with attribution after review and testing.
+- [x] **VectorBT** (`external/vectorbt`): study vectorized backtesting, walk-forward optimization, and portfolio analytics concepts. Inspect for Chapters 37 and 45; verify Debian/PyPI packaging. **Done — Part C.**
+- [x] **Advances in Financial Machine Learning — exercises** (`external/adv-financial-ml-marcos-exercises`): study the exercise solutions and the book's own snippets: event-based bars, triple-barrier labeling, sample weighting, purged/embargoed cross-validation, feature importance, and parallelization. Reference for Chapters 29, 38, and 43–50; the code is MIT-licensed and may be adapted with attribution after review and testing. **Done — Part A, with the A.8 adoption checklist.**
 - [ ] **Advances in Financial Machine Learning** (Marcos López de Prado, Wiley, 2018) — the printed reference behind the exercise repository. Conceptual authority for Chapters 43–50, especially the False Strategy theorem, the Deflated Sharpe Ratio, the Probability of Backtest Overfitting, and combinatorial purged cross-validation. Verify every technique against the exercise repository before implementing it.
 
 - [ ] Document the conclusions of this study in `docs/en/developers/reference-projects.md`.

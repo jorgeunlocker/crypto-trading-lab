@@ -355,6 +355,60 @@ These sections will be filled as each study concludes, per Chapter 25. Until the
 - [ ] **Jesse** — conclude the study of the research loop: backtest, optimization, Monte Carlo, significance testing, ML pipeline (Ch. 43–50 pointers); verify each claimed feature before recording it.
 - [ ] **TA-Lib** — conclude the study of the indicator catalog and Debian packaging status of the Python wrapper (Ch. 31 pointers).
 
+## Disk cost, and what can be removed
+
+Measured 2026-10-15. The working copies under `external/` are **930 MB**, but
+the real cost is the git object store: `.git/modules/` holds **11 GB**, and
+the checkout is **12 GB** in total. `external/ccxt` alone — working tree plus
+its object store — is **8.5 GB**, 70 % of everything.
+
+| Reference | Study | Working tree | `.git/modules` |
+|---|---|---|---|
+| `ccxt` | **done** (Part D) | 512 MB | **8.0 GB** |
+| `vectorbt` | **done** (Part C) | 141 MB | 701 MB |
+| `freqtrade` | pending | 61 MB | 764 MB |
+| `ta-lib` | pending | 96 MB | 557 MB |
+| `hummingbot` | pending | 21 MB | 561 MB |
+| `jesse` | pending | 92 MB | 102 MB |
+| `backtrader` | **done** (Part B) | 7.8 MB | 23 MB |
+| `adv-financial-ml-marcos-exercises` | **done** (Part A) | 888 KB | 1.4 MB |
+
+So the four concluded studies can be released — about **9.4 GB** — while the
+**2.2 GB** backing the four pending studies stays. Do not remove the pending
+ones: ROADMAP chapter 25 names them, and the study is an open requirement
+(AGENT-HANDOFF §5.2).
+
+**Nothing is lost permanently either way.** These are git submodules pinned
+to exact commits of public repositories, recorded in `.gitmodules` and in the
+index, so any of them comes back at the same revision with one command:
+
+```bash
+git submodule update --init external/ccxt
+```
+
+The cost of releasing `ccxt` is therefore only the re-download of its history
+if you ever need the vendored copy again — and the project uses `ccxt` from
+PyPI (`pip install -e ".[ccxt]"`), not from `external/`, so normal work never
+needs it. To reclaim the space for a study that is finished:
+
+```bash
+git submodule deinit -f external/ccxt          # clears the working tree
+rm -rf .git/modules/external/ccxt              # reclaims the object store
+```
+
+The full release-and-restore cycle was tested on 2026-10-15 on the smallest
+submodule, `external/adv-financial-ml-marcos-exercises`: after `deinit` and
+the `rm`, `git submodule update --init` brought the identical revision back
+(`57ac9979…`), `git status` stayed clean, and no committed state changed.
+Expect the same for `ccxt`, whose only difference is an 8 GB download if you
+restore it.
+
+Leave the `.gitmodules` entries in place. They cost nothing at clone time
+(submodules are not fetched by default — both CI workflows pass
+`submodules: false`) and they carry the pinned revisions the coverage tables
+above refer to. Removing a `.gitmodules` entry is a spec change to chapter 25,
+not a disk-cleanup step.
+
 ## Maintenance rules for this document
 
 - [ ] Update A.3 whenever an implementation of a technique lands, noting the project module that fulfills it, and mirror the status change in `afml-techniques.md`.

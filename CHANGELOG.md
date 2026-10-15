@@ -115,6 +115,19 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   remains unverified.
 
 ### Changed
+- **ROADMAP chapter 25 (reference projects) is `[~]`, not `[ ]`, and its
+  completed studies are ticked.** Four of the eight references were already
+  concluded and documented in `reference-projects.md` (Parts A–D: the AFML
+  exercises, Backtrader, VectorBT, CCXT) while every box in the chapter still
+  read as undone — a reader would have concluded nothing had been studied.
+  The four pending studies (Freqtrade, Hummingbot, Jesse, TA-Lib) are now a
+  backlog item in `AGENT-HANDOFF.md` §5.2, which did not track chapter 25 at
+  all.
+- **The disk cost of `external/` is documented and measured**: not 930 MB but
+  **12 GB** — 11 GB of git object store, 8.5 GB of it `ccxt`. The four
+  concluded studies account for ~9.4 GB and can be released with
+  `git submodule deinit`; the 2.2 GB behind the pending studies must stay.
+  See `reference-projects.md` → "Disk cost, and what can be removed".
 - **macOS verification is deferred to the end of development** by the
   maintainer's decision, after Linux and Windows. The `README.md` (agent
   prompt, good-first-contributions, "What is not verified"), the

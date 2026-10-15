@@ -43,9 +43,14 @@ A new AI Agent must read this file **before** doing anything else, then
   and `--tests` add more). `setup_windows.bat` is one-click.
 - **Specification:** `ROADMAP.md` — 80 chapters in 16 parts
 - **Git submodules:** 8 *optional* reference projects under `external/`;
-  the application builds and tests without them. Clone them with
+  the application builds and tests without them (both CI workflows pass
+  `submodules: false`). Clone them with
   `git submodule update --init --recursive` only when the task is about
-  those references.
+  those references. **They cost 12 GB on disk** — 11 GB of it in
+  `.git/modules`, and 8.5 GB in `ccxt` alone. Four studies are concluded
+  (`ccxt`, `vectorbt`, `backtrader`, the AFML exercises) and their ~9.4 GB
+  can be released with `git submodule deinit`; the four pending studies need
+  their 2.2 GB. See `reference-projects.md` → "Disk cost".
 - **Current phase:** the scientific engine is mature. The 2026-09/10 review
   fixed the documentation-vs-code drift and cleared all 16 unwired modules
   found in the audit; the last one, `strategy_registry`, was wired into the
@@ -347,6 +352,16 @@ features the code did not ship. Concretely:
    dependency decision first (chapter 4) before any code.
 7. **Translations** — the Spanish `.ts` still has untranslated strings that
    fall back to English.
+8. **Chapter 25 — finish the reference-project study.** Four of the eight
+   references are concluded and documented in `reference-projects.md`
+   (Parts A–D: the AFML exercises, Backtrader, VectorBT, CCXT). Four are
+   still pending and are named by the specification: **Freqtrade**
+   (ch. 33/39/57), **Hummingbot** (ch. 56/26), **Jesse** (ch. 43–50) and
+   **TA-Lib** (ch. 31). Part E of the document is the empty slot, and the
+   chapter's closing requirement — document the conclusions — is not met
+   until it is filled. This is a study task: no code, and chapter 25 stays
+   `[~]`. The conclusions must be backed by the referenced files, never by a
+   project's table of contents or its reputation.
 
 Anything in `ROADMAP.md` marked `[ ]` or `[~]` is fair game. The roadmap is
 the specification; this list is only the recommended order.
@@ -365,8 +380,9 @@ the specification; this list is only the recommended order.
 
 ```bash
 # 1. (Optional) the 8 reference projects under external/ — not needed to
-#    build, run or test the application:
-git submodule update --init --recursive
+#    build, run or test the application, and 12 GB on disk. Fetch only the
+#    one your task studies, e.g.:
+git submodule update --init external/freqtrade
 
 # 2. Verify the environment:
 python3 --version            # ≥ 3.11 expected (3.13 on record)
