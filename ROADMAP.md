@@ -25,7 +25,7 @@ before writing code, and tick a checkbox only when the requirement is
 | 1 | [ ] | 0 | 33 | No | Project purpose and scientific principles |
 | 2 | [ ] | 0 | 26 | No | Terminology and conventions |
 | 3 | [~] | 2 | 17 | No | Supported platforms and technologies |
-| 4 | [~] | 6 | 92 | No | Debian dependency priority |
+| 4 | [~] | 5 | 87 | No | Debian dependency priority |
 | 5 | [ ] | 0 | 31 | No | Mandatory project principles |
 | 6 | [~] | 1 | 137 | No | Architecture |
 | 7 | [~] | 19 | 20 | No | Domain models |
@@ -47,7 +47,7 @@ before writing code, and tick a checkbox only when the requirement is
 | 23 | [~] | 5 | 32 | No | Built-in Learning Center |
 | 24 | [~] | 54 | 0 | Sí | Glossary |
 | 25 | [ ] | 0 | 13 | No | Reference projects |
-| 26 | [~] | 41 | 1 | No | Market-data sources and exchange adapters |
+| 26 | [~] | 36 | 6 | No | Market-data sources and exchange adapters |
 | 27 | [~] | 21 | 1 | No | Connection state management |
 | 28 | [~] | 19 | 1 | No | Data import |
 | 29 | [ ] | 0 | 23 | No | Data quality management |
@@ -74,14 +74,14 @@ before writing code, and tick a checkbox only when the requirement is
 | 50 | [~] | 4 | 6 | No | Ensembles |
 | 51 | [~] | 6 | 11 | No | Portfolio construction and correlations |
 | 52 | [~] | 16 | 14 | No | Research experiment manager |
-| 53 | [~] | 3 | 16 | No | Reproducibility |
+| 53 | [~] | 5 | 14 | No | Reproducibility |
 | 54 | [ ] | 0 | 9 | No | Research notebooks |
 | 55 | [ ] | 0 | 20 | No | AI research assistant |
-| 56 | [x] | 23 | 0 | No | Execution realism |
+| 56 | [~] | 22 | 0 | No | Execution realism |
 | 57 | [~] | 5 | 55 | Sí | Paper trading |
 | 58 | [~] | 0 | 74 | Sí | Risk manager |
 | 59 | [~] | 0 | 39 | Sí | Emergency kill switch |
-| 60 | [ ] | 0 | 16 | No | Risk of ruin and capital depletion |
+| 60 | [~] | 15 | 1 | No | Risk of ruin and capital depletion |
 | 61 | [~] | 2 | 16 | No | Capital protection |
 | 62 | [~] | 1 | 19 | Sí | Live monitoring |
 | 63 | [~] | 6 | 11 | No | Live vs backtest drift |
@@ -89,11 +89,11 @@ before writing code, and tick a checkbox only when the requirement is
 | 65 | [~] | 2 | 8 | No | Strategy promotion pipeline |
 | 66 | [ ] | 0 | 20 | No | Strategy qualification |
 | 67 | [ ] | 0 | 21 | No | Safety gates |
-| 68 | [x] | 61 | 0 | No | Real trading |
+| 68 | [x] | 54 | 0 | No | Real trading |
 | 69 | [~] | 22 | 59 | No | Development phases |
 | 70 | [~] | 2 | 24 | No | Working method |
 | 71 | [~] | 67 | 20 | No | First concrete task and expected result |
-| 72 | [~] | 8 | 21 | No | Research ethics and honest reporting |
+| 72 | [~] | 14 | 14 | No | Research ethics and honest reporting |
 | 73 | [~] | 11 | 1 | Sí | Historical data acquisition and dataset identity |
 | 74 | [x] | 9 | 0 | No | Research workflow and validity dashboard |
 | 75 | [x] | 7 | 0 | No | Observable experiment lifecycle |
@@ -2330,13 +2330,13 @@ The system must maintain a central registry of strategies and their evidence.
 
 Each strategy must be able to record:
 
-- [ ] strategy ID;
+- [x] strategy ID;
 - [x] name;
 - [x] version;
 - [ ] code/configuration;
 - [x] parameters;
 - [ ] datasets used;
-- [x] results. (from backtest metrics)
+- [ ] results (from backtest metrics);
 - [ ] benchmarks;
 - [ ] validations;
 - [ ] robustness tests;
@@ -2344,6 +2344,14 @@ Each strategy must be able to record:
 - [ ] status;
 - [ ] qualification report reference (see Chapter 66);
 - [ ] complexity metrics (see Chapter 35).
+
+**Honest state (2026-10-07).** `StrategyRegistry` now stores the ID, name,
+version and parameter schema of each strategy, and the Backtesting Lab and
+the CLI read it instead of hard-coding a list. Nothing else on the list
+above is stored: `ExperimentRecord` carries a free-text strategy name and
+version but no registry ID, so no result, dataset, benchmark, validation or
+robustness report is actually linked to a strategy yet. Only the four boxes
+ticked above are backed by code today.
 
 Suggested statuses:
 
@@ -4144,7 +4152,7 @@ Explain:
 
 ---
 
-## [ ] 60. Risk of ruin and capital depletion
+## [~] 60. Risk of ruin and capital depletion
 
 The system must differentiate:
 

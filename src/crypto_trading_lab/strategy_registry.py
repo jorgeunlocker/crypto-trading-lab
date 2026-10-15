@@ -53,11 +53,19 @@ class StrategyRegistry:
     - Search and filtering
     """
 
-    def __init__(self, storage_path: Optional[Path] = None):
+    def __init__(self, storage_path: Optional[Path] = None, load: bool = True):
         self._strategies: Dict[str, StrategyRegistration] = {}
         self._storage_path = storage_path or Path.cwd() / "data" / "strategy_registry"
-        self._storage_path.mkdir(parents=True, exist_ok=True)
+        # Building a registry is a read-only operation. The directory and the
+        # JSON file are created only when something is actually mutated (see
+        # `_save`). Before this guard, merely constructing the registry wrote
+        # `data/strategy_registry/registry.json` into whatever directory the
+        # process happened to be started from — including the source tree.
+        self._persist = False
         self._load_builtin_strategies()
+        if load:
+            self._load()
+        self._persist = True
 
     def _load_builtin_strategies(self) -> None:
         """Register built-in strategies."""
@@ -279,14 +287,27 @@ class StrategyRegistry:
         return count
 
     def _save(self) -> None:
-        """Save registry to disk."""
-        if not self._storage_path:
+        """Save registry to disk.
+
+        Does nothing while the registry is being built, so that constructing
+        one never touches the filesystem.
+        """
+        if not self._persist or not self._storage_path:
             return
         path = self._storage_path / "registry.json"
         self.export_registry(path)
 
     def _load(self) -> None:
-        """Load registry from disk."""
+        """Load registry from disk.
+
+        Built-in strategies keep the factories bound by
+        `_load_builtin_strategies` (they are skipped on import). Strategies
+        that were registered by other code come back as metadata only: a
+        factory is a live Python callable and JSON cannot carry it, so
+        `get_factory` returns ``None`` for them until the code that owns the
+        strategy registers it again. `list_strategies` still reports them;
+        callers that need to *run* one must check `get_factory` first.
+        """
         path = self._storage_path / "registry.json"
         if not path.exists():
             return

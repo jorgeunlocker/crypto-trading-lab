@@ -16,8 +16,11 @@ freshly migrated copy, then `GENESIS.md`, then `ROADMAP.md`.
    Debian-or-PyPI source, reason, and the exact command to run.
    PyPI-only packages require the developer to create a venv
    (`.venv`) — the Agent uses it afterwards but never creates or
-   installs into one. So far no venv has been needed; every
-   dependency is a system Debian package.
+   installs into one. The supported Debian 13 setup uses system
+   packages for the four required dependencies; the optional extras
+   (`ccxt`, `pypdf`, `keyring`, `aiohttp`, `websockets`) and the
+   macOS/Windows paths are PyPI-only and documented in `README.md`
+   and `docs/en/developers/venv-setup.md`.
 3. **Security posture.** No real credentials in code/tests; no
    `eval()`/`exec()`; real trading stays disabled by default and
    only activates through the chapter 68 flow; strategies never
@@ -51,7 +54,7 @@ freshly migrated copy, then `GENESIS.md`, then `ROADMAP.md`.
 
 - Debian 13, Python 3.13.5, PyQt6 + pyqtgraph + SQLAlchemy +
   platformdirs from system packages (no venv)
-- Expected baseline: **702 passed, 2 skipped**
+- Expected baseline: **707 passed, 2 skipped**
 - GUI tests run offscreen (`QT_QPA_PLATFORM=offscreen`)
 
 ## Current position
@@ -59,8 +62,11 @@ freshly migrated copy, then `GENESIS.md`, then `ROADMAP.md`.
 The scientific core is implemented and tested: domain models, market
 data, indicators, the backtesting engine, performance metrics, the
 research workflow, robustness analysis and paper trading over replayed
-datasets. The immediate frontier is the **live-data path** — Binance
-WebSocket (ch. 26.2/27), testnet order placement (ch. 68) — plus
+datasets. All 16 unwired modules the 2026-09/10 audit found are now
+resolved. The immediate frontier is the CLI subcommands that still only
+print and return `0` (`database check`, `import-csv`, `backtest`,
+`glossary search`, `list lessons`), the **live-data path** — Binance
+WebSocket (ch. 26.2/27), testnet order placement (ch. 68) — and
 packaging (ch. 15/16/18). Real trading stays disabled by default.
 
 `ROADMAP.md` is the per-chapter source of truth for what remains; see

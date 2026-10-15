@@ -115,6 +115,28 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   remains unverified.
 
 ### Fixed
+- **`StrategyRegistry` wrote to disk as a side effect of being built.**
+  Its constructor created `data/strategy_registry/registry.json` under the
+  *current working directory* — including the source tree — and did it for
+  every registry, even one only used to list strategies. It also had a
+  `_load()` that was never called, so the persistence was write-only: the
+  file was written on every `register()` and never read back. The
+  constructor no longer touches the filesystem, the load path runs, and
+  built-in strategies keep the Python factories that JSON cannot carry;
+  entries restored from JSON come back as metadata only and
+  `get_factory()` says so. `StrategyRegistry(storage_path=...)` is
+  unchanged for callers.
+- **The Backtesting Lab could run a backtest with `None`.** The new
+  registry lookup replaced the old `NullStrategy()` fallback, so an
+  unregistered or metadata-only strategy id reached
+  `run_backtest(candles, None, config)` and failed far from the cause. The
+  widget now stops with a message naming the problem, and only offers
+  strategies that can actually be instantiated.
+- The strategy selector lost its translatable labels when it started
+  reading the registry: it showed the raw registry names ("Ma Crossover")
+  built at runtime, which `pylupdate6` cannot extract. The labels are
+  literal `self.tr()` strings again, with the registry name only as a
+  fallback for strategies registered by other code (chapter 36).
 - **The CI had never been able to pass.** `tests.yml` ran on
   `ubuntu-24.04`, whose `python3-sqlalchemy` is **1.4**, while the code
   needs 2.0 (`DeclarativeBase`): every build died with an `ImportError`
@@ -125,6 +147,15 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   systems on its first run because it wrote `VENV_PY` to `$GITHUB_ENV`
   and then used `$VENV_PY` **in the same step** (GITHUB_ENV only applies
   to later steps), so the command expanded to nothing and exited 127.
+- Both workflows installed `".[dev]"`, so the chapter 41 PDF export test
+  was skipped in CI (`could not import 'pypdf'`) and the CI baseline no
+  longer matched the documented one. They install `".[dev,pdf]"` now,
+  the same set the README documents.
+- `tests/exchanges/test_binance_adapter.py` reached the real Binance
+  endpoint to prove that trading is refused when it is enabled, which
+  made the suite fail with `HTTP 451` on GitHub's runners. It patches
+  `_make_signed_request` instead; the whole suite now passes with a bogus
+  proxy, which is the offline guarantee the project claims.
 
 - **The test suite segfaulted when the interpreter exited.** Every test
   passed (`698 passed, 2 skipped`) and then the process died with SIGSEGV,
@@ -133,7 +164,7 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   `trading.py`: chapter 68's safety logic imported `PyQt6.QtCore`, and
   `RealTradingManager.deactivate()` called `self.__init__()` on a `QObject`,
   which is undefined behaviour with sip. The suite now exits `0`
-  (702 passed, 2 skipped).
+  (707 passed, 2 skipped).
 - `trading.py` no longer depends on Qt at all: `RealTradingManager` is a
   plain class, the UI subscribes through the existing `add_observer` API,
   and a regression test asserts that importing the module pulls in no

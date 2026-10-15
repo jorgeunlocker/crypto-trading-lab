@@ -63,8 +63,15 @@ wired afterwards.
   the live-trading roadmap now say Coinbase is **not implemented** instead
   of claiming otherwise. No test count change (nothing imported it): 698
   passed, 2 skipped.
-- **Still open:** `strategy_registry` (item 16). It keeps its module until
-  the wiring lands.
+- **Batch C, item 16 — `strategy_registry` wired: executed 2026-10-07** by a
+  contributing agent (commit `17a3726`), then re-reviewed and corrected.
+  `BacktestingLabWidget` and the CLI now read the registry instead of
+  hard-coded lists. Reviewing that change found four defects, all fixed:
+  constructing a registry wrote `data/strategy_registry/registry.json` under
+  the **current working directory**, `_load()` existed but was never called
+  (write-only persistence), the strategy combo lost its translatable labels,
+  and the removal of the old `NullStrategy()` fallback let a backtest run
+  with `strategy=None`. Three tests added; suite 707 passed, 2 skipped.
 
 ## Summary
 
@@ -85,7 +92,7 @@ wired afterwards.
 | 13 | `execution_realism.py` | 56 | `[x]` | **Wire** into `paper_session` |
 | 14 | `reproducibility.py` | 53 | `[~]` | **Wire** into `ExperimentManager` |
 | 15 | `live_vs_backtest.py` | 63 | `[~]` | **Wire** (sole implementation), fix bug first |
-| 16 | `strategy_registry.py` | 36 | `[~]` | **Wire** (sole implementation) into the Lab |
+| 16 | `strategy_registry.py` | 36 | `[~]` | **Wired** into the Lab and the CLI (2026-10-07); chapter-36 scope still `[~]` |
 
 ## Batch A — delete (zero importers, zero tests)
 
@@ -364,16 +371,34 @@ them cannot change the suite. All are recoverable from git history.
   (drift over time, causes, degradation marking) and 63.3. Chapter 63
   stays `[~]`.
 
-### 16. `strategy_registry.py` (chapter 36)
+### 16. `strategy_registry.py` (chapter 36) — DONE (2026-10-07)
 
-- Sole implementation of a strategy catalog. Today the Backtesting Lab
-  hard-codes its three strategies (`ui/backtesting/lab.py:84-94`) and the
-  Paper screen hard-codes its own list.
-- Caveats: it covers only id/name/version/parameters of the ~15 chapter-36
-  requirements; `import_registry` drops factories (`:271-276`) and
-  `_load` (`:288`) is never called.
-- Action: wire `list_strategies`/`search` into the Lab combo and add
-  tests; complete the missing chapter-36 items separately.
+- **Was:** the sole implementation of a strategy catalog, imported only by
+  its own tests. The Backtesting Lab hard-coded its three strategies and the
+  Paper screen hard-coded its own list.
+- **Now:** `BacktestingLabWidget` builds its combo from
+  `registry.list_strategies()` and instantiates through
+  `registry.create_instance()`; `crypto-trading-lab list strategies` prints
+  the registry. The module's own caveats are handled rather than hidden:
+  `import_registry` still cannot restore a factory (a live callable is not
+  JSON), so the Lab only offers strategies whose `get_factory()` is not
+  `None`, and `create_instance()` returning `None` now stops with a message
+  instead of reaching `run_backtest(candles, None, config)`.
+- **Fixed while reviewing the wiring (2026-10-07):**
+  - The constructor created `data/strategy_registry/registry.json` under the
+    **current working directory** — building a registry to *read* the
+    strategy list wrote a file, in whatever directory the process started
+    from. Persistence now happens only on an actual mutation.
+  - `_load()` existed and was never called: every `register()` wrote the
+    file and nothing ever read it. The load path runs now, and the
+    `_persist` guard keeps the bootstrap from re-writing what it just read.
+  - The strategy combo showed runtime-built registry names ("Ma Crossover"),
+    which `pylupdate6` cannot extract — a rule-7 regression. The labels are
+    literal `self.tr()` strings again, with the registry name only as a
+    fallback for strategies registered by other code.
+- **Still open:** chapter 36 covers only id/name/version/parameters of its
+  ~15 requirements (search, tags, dependency and data-requirement
+  enforcement, versioning UI). Chapter 36 stays `[~]`.
 
 ## Findings beyond this audit
 
@@ -392,3 +417,19 @@ while auditing and they belong in the same conversation:
 - Every module in this audit was added in the 2026-09-18/19 burst and
   never touched again. The pattern — module first, integration never — is
   the root cause, not any single file.
+- **Most CLI subcommands are still placeholders (verified 2026-10-07).**
+  `crypto-trading-lab database check`, `import-csv`, `backtest`,
+  `glossary search` and `list lessons` each print one line and return `0`
+  without doing anything (`cli.py:36-68`): `database check` claims
+  "Database check passed." with no database open, and `import-csv` accepts a
+  path and never reads it. `doctor` and `list strategies` are real.
+  Chapter 22 counts as implemented only for the commands that work, so a
+  caller cannot treat a `0` exit code as proof that the command ran. Fix
+  before adding more subcommands — a silent success is worse than a
+  command that is honestly absent.
+- **A claim reviewed and *not* reproduced.** A 2026-10 report stated that the
+  README calls the WebSocket stable. It does not: the README says paper
+  trading "replays a downloaded dataset rather than streaming"
+  (`README.md:591`) and lists Binance WebSocket as an open task
+  (`README.md:644`). The report was a contributing agent's, and its other
+  claims were checked one by one for the same reason.

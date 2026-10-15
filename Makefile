@@ -1,6 +1,9 @@
 # Crypto Trading Lab — contributor shortcuts
 #
-# Everything here uses Debian system packages: no virtualenv, no pip.
+# These targets are written for the supported Debian 13 setup, which uses
+# system packages. On macOS, on Windows, or in an isolated environment,
+# follow the virtualenv tutorial in README.md instead and run the same
+# commands with `.venv/bin/python` (or `.venv\Scripts\python.exe`).
 # Run `make` or `make help` to list the targets.
 
 PYTHON ?= python3
@@ -13,7 +16,7 @@ help: ## Show this help
 	@grep -hE '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
-test: ## Run the full offline test suite (baseline: 702 passed, 2 skipped)
+test: ## Run the full offline test suite (baseline: 707 passed, 2 skipped)
 	QT_QPA_PLATFORM=offscreen $(PYTHON) -m pytest tests/ -q
 
 run: ## Launch the application

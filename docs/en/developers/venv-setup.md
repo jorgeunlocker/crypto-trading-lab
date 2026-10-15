@@ -29,7 +29,7 @@ and the measured `ccxt` evaluation.
 
 `.venv/` is already in [`.gitignore`](../../../.gitignore); never commit it.
 
-> **Verified:** Debian 13 (system packages) — 702 passed, 2 skipped, exit 0.
+> **Verified:** Debian 13 (system packages) — 707 passed, 2 skipped, exit 0.
 > **Windows 10** — verified on 2026-10-01 with these exact steps: clean `pip`
 > install, the window opens, and the suite reports the same results on Python
 > 3.14.7. **macOS is not verified**: the commands follow from the platform but
@@ -118,7 +118,7 @@ Verify:
 
 ```bash
 python -c "import PyQt6, pyqtgraph, sqlalchemy, platformdirs; print('deps OK')"
-QT_QPA_PLATFORM=offscreen python -m pytest tests/ -q   # → 702 passed, 2 skipped
+QT_QPA_PLATFORM=offscreen python -m pytest tests/ -q   # → 707 passed, 2 skipped
 PYTHONPATH=src python -m crypto_trading_lab            # launch the app
 ```
 
@@ -231,7 +231,7 @@ Environment: Debian 13, Python 3.13.5, `python3 -m venv
 | `--network` probe | `BTC/USDT last=84411.09` |
 | Adapter `fetch_candles()` over Binance | normalised `Decimal` + UTC candles |
 | Adapter `fetch_candles()` over **Coinbase** | normalised `Decimal` + UTC candles |
-| Full test suite inside the venv | **702 passed, 2 skipped** (same as the system Python) |
+| Full test suite inside the venv | **707 passed, 2 skipped** (same as the system Python) |
 
 The decisive result is the Coinbase row: the standard-library downloader
 reaches Binance only, so `ccxt` is what makes chapter 26.3 possible at all.

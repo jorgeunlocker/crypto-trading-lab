@@ -85,8 +85,23 @@ class BacktestingLabWidget(QWidget):
 
         self.registry = StrategyRegistry()
         self.strategy_combo = QComboBox()
+        # Chapter 36: the registry is the single source of truth for which
+        # strategies exist, and only the entries that can actually be
+        # instantiated are offered — a registry restored from JSON carries
+        # metadata without a factory, and offering those would only produce a
+        # failed run. The visible labels stay literal `self.tr()` strings so
+        # `pylupdate6` can extract them; a strategy registered by other code
+        # falls back to its own (untranslatable) registry name.
+        builtin_labels = {
+            STRATEGY_SMA: self.tr("SMA crossover"),
+            STRATEGY_BUY_HOLD: self.tr("Buy and hold"),
+            STRATEGY_NULL: self.tr("Null (never trades)"),
+        }
         for meta in self.registry.list_strategies():
-            self.strategy_combo.addItem(meta.name, meta.strategy_id)
+            if self.registry.get_factory(meta.strategy_id) is None:
+                continue
+            label = builtin_labels.get(meta.strategy_id, meta.name)
+            self.strategy_combo.addItem(label, meta.strategy_id)
         self.strategy_combo.addItem(self.tr("Custom Rule"), STRATEGY_RULE)
         form.addRow(self.tr("Strategy:"), self.strategy_combo)
 
@@ -196,7 +211,17 @@ class BacktestingLabWidget(QWidget):
             else:
                 strategy = self.registry.create_instance(kind)
 
-
+            # `create_instance` returns None for an id that is not registered
+            # (or that was restored from JSON without a factory). Running a
+            # backtest with None would fail far from the cause, so stop here
+            # with a message the user can act on.
+            if strategy is None:
+                message = self.tr(
+                    "The selected strategy could not be created. Choose "
+                    "another one from the list and run again."
+                )
+                self.results_view.setPlainText(message)
+                return message
 
         config = BacktestConfig(initial_capital=capital)
         result = run_backtest(self._candles, strategy, config)

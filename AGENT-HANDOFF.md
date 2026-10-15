@@ -10,12 +10,12 @@ A new AI Agent must read this file **before** doing anything else, then
 
 ---
 
-## 1. Project state (last updated 2026-10-01)
+## 1. Project state (last updated 2026-10-15)
 
 - **Repository:** `https://github.com/wachin/crypto-trading-lab`
   (branch `main`)
 - **State verified at commit:** the commit that carries this file.
-- **Tests:** 702 passed, 2 skipped, **exit code 0** —
+- **Tests:** 707 passed, 2 skipped, **exit code 0** —
   `QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q`
   (The exit code matters: the suite used to segfault while the interpreter
   shut down, so it printed "passed" and still failed the build. See §5.)
@@ -28,19 +28,24 @@ A new AI Agent must read this file **before** doing anything else, then
 - **Documentation:** `docs/en/beginners/` and
   `docs/en/developers/` (virtualenv guide in `venv-setup.md`, audit in
   `unwired-modules-audit.md`)
-- **Verification kit:** `Experiments/` runs twelve checks on a fresh machine
-  and writes a report; `setup_windows.bat` is one-click.
+- **Verification kit:** `Experiments/` runs its offline checks on a fresh
+  machine and writes a report (11 passed, 1 skipped with the system Python,
+  which has no `ccxt`; 13 passed in the Windows venv. `--network`, `--gui`
+  and `--tests` add more). `setup_windows.bat` is one-click.
 - **Specification:** `ROADMAP.md` — 80 chapters in 16 parts
 - **Git submodules:** 8 *optional* reference projects under `external/`;
   the application builds and tests without them. Clone them with
   `git submodule update --init --recursive` only when the task is about
   those references.
 - **Current phase:** the scientific engine is mature. The 2026-09/10 review
-  fixed the documentation-vs-code drift and cleared 15 of the 16 unwired
-  modules found in the audit; the only one left is `strategy_registry`.
-  The frontier after that is the live-data path (Binance WebSocket,
-  chapters 26.2/27), testnet order placement (chapter 68) and packaging
-  (chapters 15/16/18). **Real trading remains disabled by default.**
+  fixed the documentation-vs-code drift and cleared all 16 unwired modules
+  found in the audit; the last one, `strategy_registry`, was wired into the
+  Lab and the CLI on 2026-10-07 and then re-reviewed, which exposed three
+  further defects in it (see `unwired-modules-audit.md` item 16). The
+  frontier now is the live-data path (Binance WebSocket, chapters 26.2/27),
+  testnet order placement (chapter 68), packaging (chapters 15/16/18) and
+  the CLI subcommands that still only pretend to work (§5.2 item 1).
+  **Real trading remains disabled by default.**
 
 ### What changed on 2026-09-19 (direction correction + Fase A/B)
 
@@ -271,12 +276,16 @@ These rules are canonical. Every Agent working here inherits them:
 A repository review fixed one systematic problem: the documentation claimed
 features the code did not ship. Concretely:
 
-- **15 unwired modules were audited one by one.** The decisions and their
+- **All 16 unwired modules were audited one by one.** The decisions and their
   evidence are in `docs/en/developers/unwired-modules-audit.md`: nine were
-  deleted (dead, duplicated or non-functional), five were merged or wired,
-  and **one remains — `strategy_registry.py`**.
+  deleted (dead, duplicated or non-functional), seven were merged or wired.
+  The last of them, `strategy_registry.py`, was wired on 2026-10-07 by a
+  contributing agent and then re-reviewed; the review found and fixed three
+  more defects in it (a write to the current working directory on
+  construction, a `_load()` that was never called, and a rule-7 regression
+  in the new combo labels), plus a `strategy=None` path in the Lab.
 - **The documented test baseline was wrong in twelve places** and had
-  drifted between 229 and 698. It is `702 passed, 2 skipped`, and the suite
+  drifted between 229 and 698. It is `707 passed, 2 skipped`, and the suite
   **exits 0**.
 - **The suite used to segfault while the interpreter shut down** (chapter 68
   imported Qt and re-initialised a `QObject`), so `make test` and CI failed
@@ -294,9 +303,13 @@ features the code did not ship. Concretely:
 
 ### 5.2 The backlog, in the order that makes sense
 
-1. **`strategy_registry.py`** — the last unwired module (audit item 16):
-   wire its `list_strategies`/`search` into the Backtesting Lab combo, which
-   today hard-codes its strategies, or delete it.
+1. **The CLI subcommands that only pretend to work** (verified 2026-10-07):
+   `database check`, `import-csv`, `backtest`, `glossary search` and
+   `list lessons` print one line and return `0` without doing anything
+   (`cli.py:36-68`). `database check` even claims "Database check passed."
+   with no database open. `doctor` and `list strategies` are real. Either
+   implement them against chapter 22 or remove them: a silent success is
+   worse than a command that is honestly absent.
 2. **Chapter 56.5** — feed the execution model into the **backtest engine**
    and robustness, not only paper trading.
 3. **Chapter 63.2** — drift over time, likely causes, and marking a strategy
@@ -335,7 +348,7 @@ git submodule update --init --recursive
 # 2. Verify the environment:
 python3 --version            # ≥ 3.11 expected (3.13 on record)
 python3 -c "import PyQt6, pyqtgraph, sqlalchemy, platformdirs; print('deps OK')"
-QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q   # 702 passed, 2 skipped expected
+QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q   # 707 passed, 2 skipped expected
 
 # 3. Read in this order:
 #    1. AGENT-HANDOFF.md (this file) — state and next steps
@@ -349,4 +362,4 @@ If the test count differs, stop and report it before changing anything.
 
 ---
 
-*Handoff updated 2026-09-27. Baseline: 702 passed, 2 skipped.*
+*Handoff updated 2026-10-15. Baseline: 707 passed, 2 skipped.*

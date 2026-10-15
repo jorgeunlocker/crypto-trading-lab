@@ -11,7 +11,7 @@ Survive → Validate → Earn. In that order, non-negotiable.
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 [![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![PyQt6](https://img.shields.io/badge/GUI-PyQt6-41CD52?logo=qt&logoColor=white)](https://www.riverbankcomputing.com/software/pyqt/)
-[![Tests: 702 passed, 2 skipped](https://img.shields.io/badge/tests-702%20passed%2C%202%20skipped-brightgreen)](#test-baseline)
+[![Tests: 707 passed, 2 skipped](https://img.shields.io/badge/tests-707%20passed%2C%202%20skipped-brightgreen)](#test-baseline)
 [![CI](https://github.com/wachin/crypto-trading-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/wachin/crypto-trading-lab/actions/workflows/tests.yml)
 [![Platform: Debian 13](https://img.shields.io/badge/platform-Debian%2013-A81D33?logo=debian&logoColor=white)](#dependencies)
 [![Method: AFML](https://img.shields.io/badge/method-L%C3%B3pez%20de%20Prado%20(2018)-purple)](docs/en/developers/afml-techniques.md)
@@ -52,7 +52,7 @@ ideas, research results and show-and-tell →
 ```bash
 git clone https://github.com/wachin/crypto-trading-lab   # submodules optional, see below
 cd crypto-trading-lab
-QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q    # → 702 passed, 2 skipped
+QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q    # → 707 passed, 2 skipped
 PYTHONPATH=src python3 -m crypto_trading_lab             # launch the app
 ```
 
@@ -84,7 +84,7 @@ cryptocurrency research laboratory. Follow these rules exactly.
 3. Make small changes. After every change run:
        QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q
     and check the command's EXIT CODE is 0, not only the printed count
-    (baseline: 702 passed, 2 skipped). If either changes, report it: a
+    (baseline: 707 passed, 2 skipped). If either changes, report it: a
     suite that prints "passed" and exits non-zero is a bug, not a detail.
 4. Do NOT install dependencies. If one is genuinely needed, STOP and
    report: package name, source (Debian or PyPI), reason, and the exact
@@ -97,8 +97,19 @@ cryptocurrency research laboratory. Follow these rules exactly.
    same change as the code.
 7. Report honestly. Only claim a test passed if you actually ran it, and
    show the real command output. If something cannot be tested, say so.
+   Do not leave report files at the repository root: the English
+   documents under docs/en/developers/ (index: README.md there) and the
+   CHANGELOG are where findings belong.
 8. Work on a branch, keep commits focused, and tick a ROADMAP checkbox
    only when the requirement is implemented AND tested.
+9. Verify the claims you inherit. A previous agent's report is a lead, not
+   evidence: re-run the command behind every claim you depend on. In
+   October 2026 a report stated "no files were deleted" after deleting
+   four, and quoted a README sentence that does not exist; both were
+   caught by reading the repository instead of the report.
+10. Measured, not assumed. Write "verified on <platform>" only for a
+    platform someone actually ran. Debian 13 and Windows 10 are verified;
+    macOS is not. The Experiments/ kit exists to turn that into a result.
 ```
 
 ### Ways to help — code optional
@@ -209,7 +220,7 @@ cd crypto-trading-lab
 # 3. Verify the environment, then the baseline
 python3 -c "import pyqtgraph, sqlalchemy, platformdirs; print('deps OK')"
 QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q
-# → 702 passed, 2 skipped
+# → 707 passed, 2 skipped
 
 # 4. Run it
 PYTHONPATH=src python3 -m crypto_trading_lab
@@ -245,7 +256,7 @@ Python package, which is what macOS and Windows need and what a Linux user
 may prefer for an isolated environment.
 
 > **What is verified.** Debian 13 with the system packages is the only stack
-> this repository actually runs: **702 passed, 2 skipped**. The macOS and
+> this repository actually runs: **707 passed, 2 skipped**. The macOS and
 > Windows commands below follow from those platforms (PyQt6, pyqtgraph,
 > SQLAlchemy and platformdirs all publish wheels for both) but have **not
 > been executed by the maintainer yet** — no macOS or Windows machine was
@@ -275,7 +286,7 @@ python3 -m venv --system-site-packages .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
-QT_QPA_PLATFORM=offscreen python -m pytest tests/ -q   # → 702 passed, 2 skipped
+QT_QPA_PLATFORM=offscreen python -m pytest tests/ -q   # → 707 passed, 2 skipped
 python -m crypto_trading_lab
 ```
 
@@ -356,7 +367,7 @@ directly (this is exactly what CI does):
 
 ### What is verified, and what is not
 
-- **Debian 13** (Python 3.13.5, system packages): verified — `702 passed,
+- **Debian 13** (Python 3.13.5, system packages): verified — `707 passed,
   2 skipped`, and the process now exits `0`.
 - **Windows 10** (10.0.19045, AMD64, Python **3.14.7**, packages from PyPI):
   **verified on 2026-10-01** — clean `pip` install, the window opens, the
@@ -694,7 +705,7 @@ profit.
 
 ```bash
 QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q
-# → 702 passed, 2 skipped
+# → 707 passed, 2 skipped
 # → and it must exit 0
 ```
 

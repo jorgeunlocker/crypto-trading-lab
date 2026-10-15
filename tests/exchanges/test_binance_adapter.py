@@ -45,16 +45,30 @@ class TestBinanceRestAdapter:
 
 def test_adapter_with_trading_enabled():
     adapter = BinanceRestAdapter(
-        BINANCE_SPOT_TESTNET_ENDPOINTS, 
+        BINANCE_SPOT_TESTNET_ENDPOINTS,
         allow_trading=True,
         api_key="test_key",
         api_secret="test_secret"
     )
     assert adapter.supports(adapter.capabilities)  # Trading capability enabled
-    
-    perms = adapter.check_api_permissions()
-    # Without real credentials, trade will be False, but capability is enabled
     assert adapter.supports(Capability.TRADING)
+
+    # Regression: this used to call Binance for real, which fails with HTTP
+    # 451 on geo-blocked CI runners and breaks the project's rule that the
+    # suite stays offline. The transport is faked; the logic is what matters.
+    with patch.object(
+        BinanceRestAdapter, "_make_signed_request", return_value={}
+    ):
+        assert adapter.check_api_permissions() == {"read": True, "trade": True}
+
+    from crypto_trading_lab.exchanges.errors import AdapterAuthenticationError
+
+    with patch.object(
+        BinanceRestAdapter,
+        "_make_signed_request",
+        side_effect=AdapterAuthenticationError("invalid key"),
+    ):
+        assert adapter.check_api_permissions() == {"read": True, "trade": False}
 
 
 def test_adapter_health_store_optional(tmp_path):

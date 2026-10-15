@@ -1,7 +1,9 @@
 # Experiments — verification kit
 
 This folder exists for one reason: the whole test suite is verified on
-**Debian 13** (`702 passed, 2 skipped`) and on **Windows 10** (see the result
+**Debian 13** — the current baseline is `707 passed, 2 skipped` — and on
+**Windows 10**, where the revision measured on 2026-10-01 reported
+`698 passed, 2 skipped` (the count grows as tests are added; see the result
 below). Everything else — macOS, a different Linux, another Python — is
 expected to work, but nobody has measured it yet. This kit turns that
 "should work" into a real result you can send back.
@@ -189,7 +191,7 @@ materially, that difference is the finding.
 | CSV importer | 400 rows, symbol `BTC/USDT`, interval `1h` |
 | Backtest (SMA 5×20) | total return ≈ **44.30 %**, **4 trades**, final equity ≈ **14430.41** |
 | Paper trading (same strategy) | final equity ≈ **12055.25**, **4 closed trades** |
-| Test suite | **702 passed, 2 skipped** |
+| Test suite | **707 passed, 2 skipped** |
 
 Qt may print harmless platform-plugin noise to the console (on Linux, the
 theme plugin; on Windows, usually nothing). Only a `Traceback` counts as an
