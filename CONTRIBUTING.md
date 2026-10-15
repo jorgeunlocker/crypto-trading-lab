@@ -56,12 +56,13 @@ PYTHONPATH=src python3 -m crypto_trading_lab            # run the app
   `websockets`) and for an isolated environment — see
   [`docs/en/developers/venv-setup.md`](docs/en/developers/venv-setup.md)
   and [`docs/en/developers/debian-dependencies.md`](docs/en/developers/debian-dependencies.md).
-- **You do not need `external/`, and a fresh clone does not have it.** The
-  eight reference projects there were studied once; the study is concluded
-  and its conclusions live in
+- **You do not need `external/`.** The eight reference projects there were
+  studied once; the study is concluded and its conclusions live in
   [`docs/en/developers/reference-projects.md`](docs/en/developers/reference-projects.md).
-  The application builds, tests and runs without them. Fetch one **only** to
-  re-verify a specific claim, and only that one —
+  A fresh clone creates `external/` as eight **empty** placeholder
+  directories — git makes those for submodules — and the application builds,
+  tests and runs without filling them. Fetch one **only** to re-verify a
+  specific claim, and only that one —
   `git submodule update --init external/freqtrade`. Never `--recursive` by
   reflex: their working copies are 930 MB but a fetch pulls full history,
   about **11 GB**, 8 GB of it `external/ccxt`.

@@ -718,10 +718,10 @@ section.
 
 ## Disk cost, and what can now be removed
 
-Measured 2026-10-15. **A fresh clone has no `external/` directory at all** —
-git does not store empty directories, and submodules are not fetched by
-default, so nothing under `external/` is in your working tree unless you ask
-for it. The measurements below are what a fetch would cost: the working
+Measured 2026-10-15. **A fresh clone creates `external/` as eight empty
+placeholder directories** — git makes those for submodules — containing no
+files until you fetch them, and nothing there is needed to build, test or
+contribute. The measurements below are what a fetch *would* cost: the working
 copies are **930 MB**, but the real cost is the git object store, where
 `.git/modules/` holds **11 GB** and the checkout reaches **12 GB**.
 `external/ccxt` alone — working tree plus object store — is **8.5 GB**, 70 %

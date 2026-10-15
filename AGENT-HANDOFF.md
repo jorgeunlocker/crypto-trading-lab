@@ -43,15 +43,16 @@ A new AI Agent must read this file **before** doing anything else, then
   and `--tests` add more). `setup_windows.bat` is one-click.
 - **Specification:** `ROADMAP.md` — 80 chapters in 16 parts
 - **Git submodules:** 8 *optional* reference projects under `external/`.
-  **A fresh clone has no `external/` directory, and you do not need one** —
-  the application builds and tests without them (both CI workflows pass
-  `submodules: false`). **All eight are studied**: chapter 25 is `[x]` and the
-  conclusions are in `reference-projects.md` Parts A–H. Read that document;
-  go to a repository only to re-verify a specific claim, and fetch that one
-  alone (`git submodule update --init external/<name>`). Never `--recursive`
-  by reflex: it downloads 12 GB, 8.5 GB of it `ccxt`. If you have fetched
-  them and want the space back, the tested procedure is in that document
-  under "Disk cost, and what can now be removed".
+  **A fresh clone creates `external/` as eight empty placeholder directories
+  (git does that for submodules); they hold no files and you do not need to
+  populate them** — the application builds and tests without them (both CI
+  workflows pass `submodules: false`). **All eight are studied**: chapter 25
+  is `[x]` and the conclusions are in `reference-projects.md` Parts A–H. Read
+  that document; go to a repository only to re-verify a specific claim, and
+  fetch that one alone (`git submodule update --init external/<name>`). Never
+  `--recursive` by reflex: it downloads 12 GB, 8.5 GB of it `ccxt`. If you do
+  fetch them and want the space back, the tested procedure is in that
+  document under "Disk cost, and what can now be removed".
 - **Current phase:** the scientific engine is mature. The 2026-09/10 review
   fixed the documentation-vs-code drift and cleared all 16 unwired modules
   found in the audit; the last one, `strategy_registry`, was wired into the

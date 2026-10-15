@@ -248,10 +248,13 @@ research…` and read the validity dashboard before believing any number.
 <details>
 <summary><strong>You do <em>not</em> need <code>external/</code> — the reference studies are finished</strong></summary>
 
-**A fresh clone has no `external/` directory, and that is correct.** The
-eight reference projects (freqtrade, hummingbot, jesse, ccxt, vectorbt,
-backtrader, ta-lib, AFML exercises) were studied while designing this one;
-the study is **concluded** and its conclusions are written down in
+**A fresh clone creates `external/` with eight empty directories, and that is
+correct.** Git makes placeholder directories for submodules, so you will see
+`external/ccxt`, `external/freqtrade`, … — they contain **no files** until
+you fetch them, and you never need to. The eight reference projects
+(freqtrade, hummingbot, jesse, ccxt, vectorbt, backtrader, ta-lib, AFML
+exercises) were studied while designing this one; the study is **concluded**
+and its conclusions are written down in
 [`docs/en/developers/reference-projects.md`](docs/en/developers/reference-projects.md)
 (Parts A–H). They are **not needed to build, run, test or contribute to the
 application** — nothing in `src/`, `tests/`, `pyproject.toml` or `Makefile`
