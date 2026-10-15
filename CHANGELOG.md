@@ -129,6 +129,18 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   `tests.yml` comment. `AGENTS.md` rule 2 no longer claims that no virtual
   environment has ever been needed, which had been false since the extras
   (`ccxt`, `pypdf`, `keyring`, `aiohttp`, `websockets`) were documented.
+- **The GitHub Actions were moved to Node 24**: `actions/checkout@v4` → `@v5`
+  and `actions/setup-python@v5` → `@v6`. GitHub had started force-running the
+  old majors on Node 24 and annotating every run with the deprecation. Run
+  [38777456963](https://github.com/wachin/crypto-trading-lab/actions/runs/38777456963)
+  verifies the bump: `707 passed, 2 skipped` and no annotations.
+- **The `tests` workflow now passes on `main`.** It had never been able to:
+  run
+  [38772811163](https://github.com/wachin/crypto-trading-lab/actions/runs/38772811163)
+  was the first green build, and
+  [38777456963](https://github.com/wachin/crypto-trading-lab/actions/runs/38777456963)
+  repeats it, reporting the same counts as Debian (SQLAlchemy 2.1.4, pypdf
+  installed, so the chapter-41 export test runs instead of skipping).
 
 ### Fixed
 - **`StrategyRegistry` wrote to disk as a side effect of being built.**

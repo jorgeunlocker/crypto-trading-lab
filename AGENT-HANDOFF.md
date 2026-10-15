@@ -19,9 +19,11 @@ A new AI Agent must read this file **before** doing anything else, then
   `QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q`
   (The exit code matters: the suite used to segfault while the interpreter
   shut down, so it printed "passed" and still failed the build. See §5.)
-- **CI:** `tests` is **green on `main`** — run 38772811163 (2026-10-15)
-  reports the same 707/2 on `ubuntu-24.04` with pip. It had never passed
-  before. Do not let a push go red without reading the log.
+- **CI:** `tests` is **green on `main`** — run
+  [38777456963](https://github.com/wachin/crypto-trading-lab/actions/runs/38777456963)
+  (2026-10-15, commit `4926437`) reports the same 707/2 on `ubuntu-24.04` with
+  pip, and carries **no annotations**. It had never passed before. Do not let
+  a push go red without reading the log.
 - **Verified platforms:** Debian 13 (system packages, Python 3.13.5) and
   **Windows 10** (pip/PyPI, Python 3.14.7, 2026-10-01 — clean install, the
   window opens, identical numbers, `ccxt` reaches the network).
@@ -308,10 +310,17 @@ features the code did not ship. Concretely:
   `cross-platform` workflow runs Ubuntu, macOS and Windows.
 - **The default CI is green for the first time.** Run
   [38772811163](https://github.com/wachin/crypto-trading-lab/actions/runs/38772811163)
-  (2026-10-15, commit `7eecb0c`) reports `707 passed, 2 skipped` on
-  `ubuntu-24.04` with SQLAlchemy 2.1.4 and pypdf installed — the same numbers
-  as Debian. The two skips are the intentional "adapter under test has
-  trading enabled" guards, not missing dependencies.
+  (commit `7eecb0c`) was the first pass; run
+  [38777456963](https://github.com/wachin/crypto-trading-lab/actions/runs/38777456963)
+  (commit `4926437`) repeats it with `707 passed, 2 skipped` in 45.8 s on
+  `ubuntu-24.04`, SQLAlchemy 2.1.4 and pypdf installed — the same numbers as
+  Debian. The two skips are the intentional "adapter under test has trading
+  enabled" guards, not missing dependencies.
+- **The workflow actions are on Node 24** (`actions/checkout@v5`,
+  `actions/setup-python@v6`). GitHub had begun force-running the old
+  `@v4`/`@v5` on Node 24 and annotating the run about the deprecation; the
+  bump was verified by run 38777456963, which reports no annotations. Do not
+  pin them back down.
 - **Windows 10 is verified** (`Experiments/`). **macOS is deferred to the end
   of development by the maintainer's decision** — see §1.
 
