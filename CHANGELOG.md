@@ -162,16 +162,21 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   remains unverified.
 
 ### Changed
-- **The README's quick start now covers all three platforms.** It was titled
-  "Start in four commands" and those four commands were Debian-only, so a
-  Windows or macOS contributor left the first code block and had to find the
-  virtualenv tutorial further down. It is now "Start here — pick your
-  platform", with a verified block per platform, the Windows
-  execution-policy line explained where it is needed rather than two
-  screens later, and a note that `pdf` is not really optional: without
-  `pypdf` the report-export test skips, so the count becomes 3 skipped
-  instead of the advertised 2. Every block installs `".[dev,pdf]"`, which is
-  exactly what CI installs.
+- **The README's install instructions are now one section instead of two.**
+  A "Start here — pick your platform" block had been added near the top with
+  Debian, macOS and Windows commands, but it duplicated what the Quick start
+  and "Install with pip" sections already said further down. It has been
+  removed and its two genuinely unique pieces folded into the Quick start,
+  which is the section that survives.
+- **The Quick start's `apt` list was installing too little to reach the
+  baseline it advertises.** It promised `707 passed, 2 skipped` but omitted
+  `python3-pytestqt` and `python3-pypdf`. Without `pytest-qt` the five
+  accessibility tests **error** rather than skip — verified by disabling the
+  plugin: `2 passed, 5 errors`, exit 1 — and without `pypdf` the chapter-41
+  export test skips, making the count 3. Both packages are now in the list,
+  and the section explains why each one matters, since neither failure looks
+  like a missing dependency. The same `dev`+`pdf` pairing is now stated for
+  the pip route, where installing `".[dev]"` alone has the identical effect.
 - **ROADMAP chapter 25 (reference projects) is closed: `[x]`, 13 boxes
   ticked, 0 open.** It had been `[ ]` with every box reading as undone even
   though four studies were already concluded and documented

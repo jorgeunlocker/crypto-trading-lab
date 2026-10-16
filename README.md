@@ -49,60 +49,6 @@ break something.
 ideas, research results and show-and-tell →
 [Discussions](https://github.com/wachin/crypto-trading-lab/discussions).
 
-### Start here — pick your platform
-
-**Debian 13 / Ubuntu** — the supported setup, system packages, no virtualenv:
-
-```bash
-git clone https://github.com/wachin/crypto-trading-lab   # submodules optional, see below
-cd crypto-trading-lab
-QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q    # → 707 passed, 2 skipped
-PYTHONPATH=src python3 -m crypto_trading_lab             # launch the app
-```
-
-**macOS** — Apple Silicon and Intel both have wheels; Python 3.11+:
-
-```bash
-git clone https://github.com/wachin/crypto-trading-lab && cd crypto-trading-lab
-python3 -m venv .venv && source .venv/bin/activate
-python -m pip install -e ".[dev,pdf]"                    # exactly what CI installs
-QT_QPA_PLATFORM=offscreen python -m pytest tests/ -q    # → 707 passed, 2 skipped
-python -m crypto_trading_lab
-```
-
-**Windows (PowerShell)** — Python 3.11+ from python.org or the Store:
-
-```powershell
-git clone https://github.com/wachin/crypto-trading-lab; cd crypto-trading-lab
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass   # this window only
-py -3 -m venv .venv; .\.venv\Scripts\Activate.ps1
-python -m pip install -e ".[dev,pdf]"                    # exactly what CI installs
-$env:QT_QPA_PLATFORM = "offscreen"
-python -m pytest tests -q                                # → 707 passed, 2 skipped
-python -m crypto_trading_lab
-```
-
-Add `,ccxt` for the multi-exchange adapter and `,credentials` for keyring
-storage, e.g. `".[dev,pdf,ccxt]"`. `pdf` is not optional in practice: without
-`pypdf` the report-export test skips and the count becomes 3 skipped instead
-of 2, which is why every command above installs it.
-
-The `Set-ExecutionPolicy` line exists because PowerShell blocks the
-activation script by default; `-Scope Process` limits the change to that
-window, needs no administrator rights and persists nothing. If you would
-rather not touch the policy, call `.\.venv\Scripts\python.exe` directly
-instead — that is what CI does. Full walkthroughs, including the errors these
-steps can raise and their fixes:
-[Install with pip](#install-with-pip--linux-macos-and-windows) below, and
-[`docs/en/developers/venv-setup.md`](docs/en/developers/venv-setup.md) for
-troubleshooting and the measured evaluation of `ccxt`.
-
-> The suite is offline and takes well under a minute on every platform, so
-> running it **before** you change anything is the cheapest way to know your
-> setup is sound. Windows 10 is verified; macOS is deliberately deferred to
-> the end of development — see
-> [What is verified, and what is not](#what-is-verified-and-what-is-not).
-
 ### Read these four files, in this order
 
 | # | File | Why it matters |
@@ -306,7 +252,8 @@ reviewed and mapped in [`docs/en/developers/afml-techniques.md`](docs/en/develop
 ```bash
 # 1. Dependencies — Debian system packages (virtualenv route: docs/en/developers/venv-setup.md)
 sudo apt install python3-pyqt6 python3-pyqtgraph python3-sqlalchemy \
-                 python3-platformdirs python3-pytest qt6-l10n-tools
+                 python3-platformdirs python3-pytest python3-pytestqt \
+                 python3-pypdf qt6-l10n-tools
 
 # 2. Clone (the research submodules are optional — see below)
 git clone https://github.com/wachin/crypto-trading-lab
@@ -320,6 +267,23 @@ QT_QPA_PLATFORM=offscreen python3 -m pytest tests/ -q
 # 4. Run it
 PYTHONPATH=src python3 -m crypto_trading_lab
 ```
+
+Run step 3 **before** you change anything. The suite is offline and takes well
+under a minute, so it is the cheapest way to know your setup is sound — if it
+prints anything other than `707 passed, 2 skipped`, the problem is the
+environment, not your change, and it is worth fixing first. Two of those
+packages are easy to leave out and neither failure looks like a missing
+dependency:
+
+- **`python3-pytestqt`** provides the `qtbot` fixture the UI tests need. The
+  suite installs it as a pytest plugin, so without it those tests **error**
+  rather than skip.
+- **`python3-pypdf`** renders PDF reports. Without it the chapter-41 export
+  test skips, the count becomes **3 skipped**, and the difference is easy to
+  mistake for a test that was never written.
+
+`qt6-l10n-tools` is only needed for the translation tooling
+(`pylupdate6`/`lrelease`), not for the suite.
 
 **Recommended first run inside the app:** `File → Get historical data…` →
 `BTC/USDT`, `1 hour`, a few years → **Download**. Then `Tools → New
@@ -381,6 +345,11 @@ Requirement: **Python 3.11 or newer** (3.13 is what the suite runs on).
 | `pdf` | pypdf | PDF report export (chapter 41) |
 | `credentials` | keyring | storing API keys in the system keyring (chapter 9) |
 | `aiohttp`, `websockets` | both | the chapter-27 live feed |
+
+`dev` and `pdf` are the pair that reproduces the advertised baseline. Install
+`".[dev]"` alone and the chapter-41 export test skips, so the run reports
+**3 skipped** instead of 2. Combine extras with commas, for example
+`".[dev,pdf,ccxt]"`.
 
 ### Linux (Debian/Ubuntu) with a virtualenv
 
