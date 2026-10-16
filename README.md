@@ -301,7 +301,7 @@ reviewed and mapped in [`docs/en/developers/afml-techniques.md`](docs/en/develop
 
 ---
 
-## Quick start
+## Quick start Debian/Ubuntu with system packages
 
 ```bash
 # 1. Dependencies — Debian system packages (virtualenv route: docs/en/developers/venv-setup.md)
