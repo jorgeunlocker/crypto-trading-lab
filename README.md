@@ -399,6 +399,7 @@ cd $HOME\Dev\crypto-trading-lab
 py -3 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
+pip install -r requirements-all.txt
 python -m pip install -e ".[dev,ccxt,pdf,credentials]"
 $env:QT_QPA_PLATFORM = "offscreen"
 python -m pytest tests/ -q
