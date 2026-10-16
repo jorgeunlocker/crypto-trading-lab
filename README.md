@@ -392,8 +392,13 @@ python -m crypto_trading_lab
 
 ### Windows (PowerShell)
 
+You need python 3.12 only from: 
+
+[https://www.python.org/downloads/release/python-3120/](https://www.python.org/downloads/release/python-3120/)
+
+install and add to the PATH, then:
+
 ```powershell
-# Python 3.11+ from python.org (tick "Add python.exe to PATH") or the Store
 py -3 --version
 cd $HOME\Dev\crypto-trading-lab
 py -3 -m venv .venv
@@ -444,7 +449,7 @@ directly (this is exactly what CI does):
 (`source .venv/Scripts/activate`) avoid the policy entirely too.
 
 
-#### Windows requires Python 3.12 specifically — not 3.13+, and never 3.15
+#### Why Windows requires Python 3.12 specifically — not 3.13+, and never 3.15
 
 On Windows, use **Python 3.12.x** to install this project. It is the version
 the Windows install is measured against, and it is the one that makes the
@@ -512,7 +517,7 @@ tutorial above does exactly that.
 
 - **Debian 13** (Python 3.13.5, system packages): verified — `707 passed,
   2 skipped`, and the process now exits `0`.
-- **Windows 10** (10.0.19045, AMD64, Python **3.12**, packages from PyPI):
+- **Windows 10/11** (10.0.19045, AMD64, Python **3.12**, packages from PyPI):
   **verified on 2026-10-01** — clean `pip` install, the window opens, the
   CSV import / backtest / paper trading numbers are *identical* to Debian,
   `ccxt` reaches the network, and the suite reports `698 passed, 2 skipped`.
