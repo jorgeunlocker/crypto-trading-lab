@@ -162,6 +162,17 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
   remains unverified.
 
 ### Changed
+- **Three internal README links were pointing at an anchor that does not
+  exist.** They said `#what-is-not-verified` while the heading is "What is
+  verified, and what is not". Renaming the `## Quick start` heading also
+  silently broke the two `#quick-start` links to it. Neither kind of breakage
+  fails anything: the test suite never reads the README, and a link checker
+  that only verifies that files exist will not look inside `#fragments`.
+  Both were found by writing the anchor check, and the corrected checker
+  algorithm is recorded here because it is easy to get wrong: GitHub emits
+  **one hyphen per space and does not collapse runs**, so
+  "Contributing — bring your AI agent" becomes
+  `#contributing--bring-your-ai-agent`, not `#contributing-bring-your-ai-agent`.
 - **The README's install instructions are now one section instead of two.**
   A "Start here — pick your platform" block had been added near the top with
   Debian, macOS and Windows commands, but it duplicated what the Quick start
