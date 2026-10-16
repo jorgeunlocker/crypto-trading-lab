@@ -101,11 +101,19 @@ A change is done when:
 
 - [ ] the requirement it implements is named (chapter + item),
 - [ ] the full suite is green, with the real command output quoted,
+- [ ] if the change touched Markdown, `python3 tools/check_doc_links.py` is
+      green too,
 - [ ] new behaviour has tests that fail without the change,
 - [ ] documentation is updated in the same commit,
 - [ ] visible UI strings are wrapped in `self.tr()`,
 - [ ] no new dependency was installed,
 - [ ] real trading is still disabled.
+
+The link check exists because nothing else can catch this class of mistake.
+The test suite never reads the documentation, and renaming a heading
+silently breaks every link pointing at its anchor — three such links lived in
+the README undetected until the check was written. It needs no dependency and
+no network: `python3 tools/check_doc_links.py`, also run by CI.
 
 ---
 

@@ -64,8 +64,21 @@ Development and tests:
 |---|---|---|
 | Test runner | `python3-pytest` | `pytest` |
 | Qt test helpers | `python3-pytest-qt` | `pytest-qt` |
-| Property-based tests | `python3-hypothesis` | `hypothesis` |
-| Runtime type checks in tests | `python3-typeguard` | `typeguard` |
+
+> **Removed 2026-10-15: `hypothesis` and `typeguard`.** Both were declared in
+> the `dev` extra and neither was used — no test imported them and pytest was
+> never configured to activate them, so they were install weight for nothing.
+> Neither is named in the ROADMAP.
+>
+> - **`hypothesis` may come back.** The README invites property-based tests,
+>   and a financial engine has invariants genuinely worth fuzzing: drawdown is
+>   never negative, a strategy cannot exceed its exposure cap, an equity curve
+>   round-trips through the ledger. Whoever implements that work should add
+>   `hypothesis` back to `dev` at that moment — this project adds a dependency
+>   when the code needs it, not in advance.
+> - **`typeguard` has no home here.** Chapter 4.7 assigns type checking to
+>   `mypy`, which is static; a second, runtime checker is not in the
+>   specification. Do not re-add it without a decision that says why.
 
 Optional extras:
 

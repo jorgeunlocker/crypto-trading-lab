@@ -14,6 +14,19 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
 
 ### Added
 
+- **`tools/check_doc_links.py`, and a CI step that runs it.** The test suite
+  never reads the documentation, so nothing caught broken links: five had
+  accumulated in the README, three pointing at an anchor that never existed
+  and two broken by a heading rename. The checker validates both halves —
+  that a linked file exists, and that a `#fragment` matches a heading in the
+  target — using GitHub's slug algorithm, and it is worth noting why that
+  algorithm is easy to get wrong: GitHub emits one hyphen per space and does
+  not collapse runs, so `## Contributing — bring your AI agent` is
+  `#contributing--bring-your-ai-agent`. A checker that collapses whitespace
+  reported five false positives here and buried the three real failures.
+  Stdlib only, offline, no dependency; it is also a line in the definition of
+  done in `CONTRIBUTING.md`.
+
 - **A "What you get out of it" section in the README's contribution
   pitch.** The pitch sold the *mechanics* — a written specification, small
   PRs, an offline suite — but never the *domain*: that a contributor
@@ -396,6 +409,16 @@ per-chapter state of the specification, see [`ROADMAP.md`](ROADMAP.md).
 
 ### Removed
 
+- **`hypothesis` and `typeguard` are no longer declared dependencies.** Both
+  sat in the `dev` extra and neither was used: no test imported them, pytest
+  was never configured to activate them, and the ROADMAP names neither.
+  `typeguard` was dropped outright — chapter 4.7 assigns type checking to
+  `mypy`, which is static, and a second runtime checker has no home here.
+  `hypothesis` may return: the README invites property-based tests, and a
+  financial engine has invariants worth fuzzing (drawdown never negative, a
+  strategy never exceeding its exposure cap, an equity curve round-tripping
+  through the ledger). The reasoning lives in `venv-setup.md` rather than in
+  `pyproject.toml` alone, so whoever picks that work up finds it.
 - **`GENESIS.md`.** It was the Phase 0 bootstrap instruction written when
   the repository was empty, and every deliverable it ordered now exists
   (the dependency research, the architecture proposal, the threat model,

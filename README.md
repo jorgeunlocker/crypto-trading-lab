@@ -340,7 +340,7 @@ Requirement: **Python 3.11 or newer** (3.13 is what the suite runs on).
 
 | Extra | Adds | Needed for |
 |---|---|---|
-| `dev` | pytest, pytest-qt, hypothesis, typeguard | running the test suite |
+| `dev` | pytest, pytest-qt | running the test suite |
 | `ccxt` | ccxt | the read-only multi-exchange adapter (chapter 26) |
 | `pdf` | pypdf | PDF report export (chapter 41) |
 | `credentials` | keyring | storing API keys in the system keyring (chapter 9) |

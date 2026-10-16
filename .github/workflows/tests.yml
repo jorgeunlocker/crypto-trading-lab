@@ -54,6 +54,12 @@ jobs:
           .venv/bin/python -c "import PyQt6, pyqtgraph, sqlalchemy, platformdirs; print('deps OK')"
           .venv/bin/python -c "import sqlalchemy; print('SQLAlchemy', sqlalchemy.__version__)"
 
+      # Fast and offline, and the only thing that catches a broken heading
+      # anchor: the test suite never reads the documentation, and a checker
+      # that only verifies file existence will not look inside #fragments.
+      - name: Check documentation links and anchors
+        run: .venv/bin/python tools/check_doc_links.py
+
       - name: Run the test suite
         env:
           QT_QPA_PLATFORM: offscreen

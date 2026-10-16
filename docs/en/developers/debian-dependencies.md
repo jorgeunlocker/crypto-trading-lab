@@ -22,8 +22,12 @@ python3 -c "import pyqtgraph, sqlalchemy, platformdirs, pypdf; print('deps OK')"
 ## Development tools
 
 ```bash
-sudo apt install python3-pytest python3-pytest-qt python3-hypothesis python3-typeguard
+sudo apt install python3-pytest python3-pytest-qt
 ```
+
+`python3-hypothesis` and `python3-typeguard` were dropped from this list and
+from the `dev` extra on 2026-10-15: nothing used them. See
+[`venv-setup.md`](venv-setup.md) for which one might return, and why.
 
 # Debian Package Installation
 
